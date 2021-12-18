@@ -1,0 +1,22 @@
+.header {
+    text-decoration: none;
+    background-color: #262729;
+    height: 60px;
+    padding-left: 50px;
+    padding-top: 20px;
+    padding-right: 50px;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.site__logo  {
+    color: aliceblue;
+}
+
+.button {
+    color: white;
+}
+
