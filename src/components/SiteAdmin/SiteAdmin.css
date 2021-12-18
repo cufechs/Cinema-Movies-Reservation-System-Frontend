@@ -1,0 +1,32 @@
+.users__list {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: antiquewhite;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 1000px;
+    margin-top: 80px;
+}
+
+.table__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.table__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.data__grid {
+    width: 850px;
+    height: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+}
