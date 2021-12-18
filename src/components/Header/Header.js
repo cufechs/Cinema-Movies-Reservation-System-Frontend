@@ -3,9 +3,23 @@ import { Link, NavLink } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import './Header.css';
+import { useSelector } from 'react-redux';
+import GuestHeader from './GuestHeader/GuestHeader';
+import CustomerHeader from './CustomerHeader/CustomerHeader';
+import ManagementHeader from './ManagementHeader/ManagementHeader';
 
 const Header = () => {
-    // TODO: check if user is logged in, conditional rendering on login signup div
+    const userType = useSelector(state => state.user.type);
+    console.log("userType: ",userType);
+    let header = null;
+
+    if (userType == "SiteAdmin" || userType == "Manager") {
+        header = <ManagementHeader />
+    } else if (userType == "Customer") {
+        header = <CustomerHeader />
+    } else { // Guest
+        header = <GuestHeader />
+    }
 
     return (
         <div className="header">
@@ -14,14 +28,7 @@ const Header = () => {
                     Cinema Movies Reservation
                 </div>
             </NavLink>
-            <Stack spacing={2} direction="row">
-                <NavLink to="/login">
-                    <Button variant="outlined" style={{color: 'white'}}>LOGIN</Button>
-                </NavLink>
-                <NavLink to="/signup">
-                    <Button variant="outlined" style={{color: 'white'}}>SIGN UP</Button>
-                </NavLink>
-            </Stack>
+            {header}
         </div>
     )
 }

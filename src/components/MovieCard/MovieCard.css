@@ -1,0 +1,17 @@
+.card {
+    cursor: pointer;
+    margin: 15px;
+    height: 350px;
+    width: 300px;
+}
+
+.card__image img {
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: fill;
+    overflow: hidden;
+}
+
+.card_description {
+    padding: 20px;
+}

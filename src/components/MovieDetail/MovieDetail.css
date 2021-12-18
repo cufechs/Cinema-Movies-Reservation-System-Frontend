@@ -1,0 +1,37 @@
+.movie__detail {
+    padding: 40px 0px;
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: 400;
+    flex-direction: row;
+}
+.left {
+    display: flex;
+    flex-direction: column;
+}
+.title {
+    font-size: 40px;
+    padding-left: 50px;
+}
+
+.description {
+    margin: 10px;
+    padding-left: 50px;
+}
+
+.right img {
+    max-width: 400px;
+    max-height: 600px;
+}
+
+.right {
+    margin-right: 50px;
+}
+
+.booking__btn {
+    margin-top: 30px;
+}
+
+.booking {
+    margin: 10px 40px 10px 40px;
+}
