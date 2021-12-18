@@ -13,8 +13,33 @@ export const userApi = createApi({
                 body: loginInfo,
                 headers: {}
             })
+        }),
+        getAllUsers: builder.query({
+            query: () => `/users`
+        }),
+        getUser: builder.query({
+            query: (id) => `/users/${id}`
+        }),
+        deleteUser: builder.mutation({
+            query: (id) => ({
+                url: `/users/${id}`,
+                method: 'DELETE'
+            })
+        }),
+        approveUser: builder.mutation({
+            query: ({ id, ...rest }) => ({
+                url: `/users/${id}`,
+                method: 'PUT',
+                body: rest
+            })
         })
     })
 })
 
-export const { useLoginMutation } = userApi;
+export const { 
+    useLoginMutation,
+    useGetAllUsersQuery,
+    useGetUserQuery,
+    useDeleteUserMutation,
+    useApproveUserMutation
+} = userApi;

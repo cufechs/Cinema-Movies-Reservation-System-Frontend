@@ -8,7 +8,8 @@ const initialState = {
     firstName: "",
     lastName: "",
     role: "",
-    isLoggedIn: ""
+    isLoggedIn: false,
+    type: "Guest"
 }
 
 const userSlice = createSlice({
@@ -24,4 +25,5 @@ const userSlice = createSlice({
     }
 });
 
-export default userSlice.reducer;
+export const userActions = userSlice.actions;
+export default userSlice;
