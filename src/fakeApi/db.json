@@ -27,15 +27,6 @@
   ],
   "users": [
     {
-      "id": 1,
-      "firstName": "Abdelrahman",
-      "lastName": "Mamdouh",
-      "email": "abdelrahman@gmail.com",
-      "userName": "abdelrahman",
-      "type": "Customer",
-      "status": "approved"
-    },
-    {
       "firstName": "Mohy",
       "lastName": "Mamdouh",
       "userName": "abdelrahman",
@@ -51,6 +42,33 @@
       "userName": "abdelrahman",
       "type": "Manager",
       "status": "pending"
+    },
+    {
+      "id": 9,
+      "firstName": "Abdelrahman",
+      "lastName": "Mamdouh",
+      "email": "abdelrahman@gmail.com",
+      "userName": "abdelrahman",
+      "type": "Customer",
+      "status": "pending"
+    },
+    {
+      "id": 10,
+      "firstName": "Hossam",
+      "lastName": "Mamdouh",
+      "email": "abdelrahman@gmail.com",
+      "userName": "abdelrahman",
+      "type": "Customer",
+      "status": "approved"
+    },
+    {
+      "id": 11,
+      "firstName": "Akmal",
+      "lastName": "Mamdouh",
+      "email": "abdelrahman@gmail.com",
+      "userName": "abdelrahman",
+      "type": "Manager",
+      "status": "approved"
     }
   ]
 }

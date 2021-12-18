@@ -7,6 +7,7 @@ import NotFound from './components/NotFound/NotFound';
 import Login from './components/Login/Login';
 import MovieDetail from './components/MovieDetail/MovieDetail';
 import SiteAdmin from './components/SiteAdmin/SiteAdmin';
+import SignUp from './components/SignUp/SignUp';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/movies/:movieID" element={<MovieDetail />} />
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/site-administration" element={<SiteAdmin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
