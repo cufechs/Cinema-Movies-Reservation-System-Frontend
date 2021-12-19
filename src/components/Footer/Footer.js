@@ -1,68 +1,70 @@
-// import React from 'react';
-// import './Footer.css';
-
-// const Footer = () => {
-//     return (
-//         <div className="footer">
-//             Footer
-//         </div>
-//     )
-// }
-
-// export default Footer;
-
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
+import React from 'react';
+import { Grid, Container, Box } from '@mui/material';
+import { Link } from '@mui/material';
 import './Footer.css';
 
-function Copyright() {
+const Footer = () => {
   return (
-    <Typography variant="body2" color="text.secondary">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+    <footer className="footer">
+      <Box 
+        px={{ xs: 3, sm: 10 }}
+        py={{ xs: 3, sm: 7 }}
+        color="white" 
+        bgcolor="#1b1b1d"
+        
+        >
+        <Container maxWidth="lg" >
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={4}>
+              <Box >
+                <img width="150px" src="https://egy.voxcinemas.com/assets/images/logo-dark-288x92.png" />
+              </Box>
+              
+            </Grid>
 
-export default function Footer() {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '20vh',
-      }}
-    >
-      
-      <Box
-        component="footer"
-        sx={{
-          py: 3,
-          px: 2,
-          mt: 'auto',
-          backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-              ? theme.palette.grey[200]
-              : theme.palette.grey[800],
-        }}
-      >
-        <Container maxWidth="sm">
-          <Typography variant="body1">
-            My sticky footer can be found here.
-          </Typography>
-          <Copyright />
+            <Grid item xs={12} sm={4}>
+              <Box ><h4>About</h4></Box>
+              <hr width="100px"/>
+              <Box>
+                <Link href="/developers" color="inherit" style={{textDecoration: 'none'}}>
+                  About Us
+                </Link>
+              </Box>
+              <Box>
+                <Link href="/" color="inherit" style={{textDecoration: 'none'}}>
+                  Developers
+                </Link>
+              </Box>
+              <Box>
+                <Link href="/" color="inherit" style={{textDecoration: 'none'}}>
+                  Privacy
+                </Link>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              <Box borderBottom={0}><h4>Help</h4></Box>
+              <hr width="100px"/>
+              <Box>
+                <Link href="/" color="inherit" style={{textDecoration: 'none'}}>
+                  Contact
+                </Link>
+              </Box>
+              <Box>
+                <Link href="/" color="inherit" style={{textDecoration: 'none'}}>
+                  Support
+                </Link>
+              </Box>
+              
+            </Grid>
+
+          </Grid>
         </Container>
       </Box>
-    </Box> 
+    </footer>
   )
 }
+
+export default Footer;
 
   

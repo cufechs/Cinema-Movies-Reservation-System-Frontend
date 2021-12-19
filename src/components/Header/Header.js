@@ -23,8 +23,9 @@ const Header = () => {
 
     return (
         <div className="header">
-            <NavLink to="/">
+            <NavLink to="/" style={{textDecoration: 'none'}}>
                 <div className="site__logo">
+                    <img  src="https://egy.voxcinemas.com/assets/images/logo-dark-288x92.png" />
                     Cinema Movies Reservation
                 </div>
             </NavLink>

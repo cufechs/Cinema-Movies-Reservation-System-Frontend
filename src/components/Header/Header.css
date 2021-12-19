@@ -1,19 +1,27 @@
 .header {
     text-decoration: none;
-    background-color: #262729;
-    height: 60px;
-    padding-left: 50px;
-    padding-top: 20px;
+    /* background-color: #262729; */
+    background-color: #1b1b1d;
+    height: 50px;
+    padding-left: 30px;
+    padding-top: 50px;
     padding-right: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-family: 'Open Sans', sans-serif;
+    margin-bottom: 40px;
 }
 
 .site__logo  {
-    color: aliceblue;
+    color: white;
+    font-size: 18px;
+}
+.site__logo img {
+    width: 100px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .button {
