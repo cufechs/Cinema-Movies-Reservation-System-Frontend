@@ -1,6 +1,6 @@
 .cinema__room {
     max-width: 1000px;
-    background-color: bisque;
+    background-color: black;
     margin: auto;
     padding: 30px;
 }
@@ -24,4 +24,42 @@
 .row {
     display: flex;
     justify-content: center;
-  }
+}
+
+.rowName {
+    margin-top: 10px;
+}
+
+.selected {
+    background-color: white;
+}
+
+.screen__image {
+    margin: 0 auto 20px auto;
+    background-image: url("https://egy.voxcinemas.com/assets/images/booking/seats-screen-dark@2x.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 60px;
+    content: '';
+    display: block;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    width: 40%;
+    z-index: 1;
+}
+
+.screen  {
+    color: #000;
+    color: white;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    height: 60px;
+    line-height: 60px;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    z-index: 2;
+    
+}
