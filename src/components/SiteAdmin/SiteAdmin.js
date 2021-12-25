@@ -6,7 +6,9 @@ import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import DoneIcon from '@mui/icons-material/Done';
 
-  
+// TODO: 
+// 1. replace refetch with tagpairs 
+// 2. pending is only on managers
 const SiteAdmin = () => {
     const {data, isLoading, isSuccess, isError, refetch } = useGetAllUsersQuery();
     const [selectedUser, setSelectedUser] = useState(null);

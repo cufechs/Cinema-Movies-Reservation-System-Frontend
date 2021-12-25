@@ -1,9 +1,10 @@
 import React from 'react';
 import MoviesList from '../MoviesList/MoviesList';
+import './Home.css';
 
 const Home = () => {
     return (
-        <div>
+        <div className="home">
             <MoviesList />
         </div>
     )
