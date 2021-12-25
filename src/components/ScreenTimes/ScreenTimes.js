@@ -18,13 +18,21 @@ const ScreenTimes = (props) => {
 
 const ScreenTime = (props) => {
 
+    const [timeColorClass, setTimeColorClass] = useState(`${'action'} ${props.occupied ? 'occupied' : 'showtime'} `);
+    const [lastClicked, setLastClicked] = useState(false);
+    const [lastTimeSelected, setLastTimeSelected] = useState(false);
     const handleSelection = () => {
-        props.setSelectedScreenTime(props.time);
+        if (!props.occupied) {
+            setLastClicked(state => !state);
+            props.setSelectedScreenTime(lastClicked ? '' : props.time);
+            //setTimeColorClass(`${'action'} ${lastClicked ? 'showtime' : 'selected'} `);
+        }
     }
 
     return (
         <li className="list__item">
-            <a className={`${'action'} ${props.occupied ? 'occupied' : 'showtime'} `} onClick={handleSelection} >{props.time}pm</a>
+            {/* <a className={`${'action'} ${props.occupied ? 'occupied' : 'showtime'} `} onClick={handleSelection} >{props.time}pm</a> */}
+            <a className={timeColorClass} onClick={handleSelection} >{props.time}pm</a>
         </li>
     )
 }

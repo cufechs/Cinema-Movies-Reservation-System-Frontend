@@ -40,6 +40,19 @@
     text-transform: none;
 }
 
+.action.selected {
+    background-color: green;
+    border: 1px solid #d40f7d;
+    font-family: 'Effra', Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.375rem;
+    margin: -5px 5px -3px 0;
+    padding: 0 10px 0 14px;
+    position: relative;
+    text-transform: none;
+}
+
 .action.occupied {
     background-color: grey;
     border: 1px solid black;
