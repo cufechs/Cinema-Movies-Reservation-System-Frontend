@@ -5,31 +5,11 @@ const ScreenTimes = () => {
     return (
         <div className="screen__times">
             <ol >
-                <li className="list__item">
-                    <a className="action showtime" >1:45pm <span>3D</span></a>
-                </li>
-                <li className="list__item">
-                    <a className="action showtime" >1:45pm <span>3D</span></a>
-                </li>
-                <li className="list__item">
-                    <a className="action showtime" >1:45pm <span>3D</span></a>
-                </li>
-                <li className="list__item">
-                    <a className="action showtime" >1:45pm <span>3D</span></a>
-                </li>
-                <li className="list__item">
-                    <a className="action showtime" >1:45pm <span>3D</span></a>
-                </li>
-                <li className="list__item">
-                    <a className="action showtime" >1:45pm <span>3D</span></a>
-                </li>
-                <li className="list__item">
-                    <a className="action showtime" >1:45pm <span>3D</span></a>
-                </li>
-                <li className="list__item">
-                    <a className="action showtime" >1:45pm <span>3D</span></a>
-                </li>
-                <ScreenTime time="2:30" occupied={true}/>
+                <ScreenTime time="1:30" occupied={false}/>
+                <ScreenTime time="2:30" occupied={false}/>
+                <ScreenTime time="3:30" occupied={false}/>
+                <ScreenTime time="4:30" occupied={false}/>
+                <ScreenTime time="5:30" occupied={true}/>
             </ol>
         </div>
     )

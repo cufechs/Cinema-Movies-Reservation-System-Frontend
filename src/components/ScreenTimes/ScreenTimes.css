@@ -94,7 +94,11 @@ main ol.showtimes>li ol li {
     margin-top: 10px;
 }
 
-.list__item:hover a {
+.action.showtime:hover  {
     background-color: rgb(148, 40, 62);
+}
+
+.occupied:hover {
+    background-color: grey;
 }
 
