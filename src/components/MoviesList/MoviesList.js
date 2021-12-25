@@ -39,6 +39,7 @@ function MoviesList() {
                             id={movie.id} 
                             title={movie.title} 
                             description={movie.description}
+                            src={movie.src}
                         />
                     </Link>
                 ))}

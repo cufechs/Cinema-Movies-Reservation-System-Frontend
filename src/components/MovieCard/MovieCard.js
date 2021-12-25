@@ -12,7 +12,7 @@ const MovieCard = (props) => {
     return (
         <div className="card">
             <div className="card__image">
-                <img src={img1} />
+                <img src={props.src} />
             </div>
             <div className="card_description">
                 <p>{props.title}</p>
