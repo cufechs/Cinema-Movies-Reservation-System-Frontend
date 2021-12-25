@@ -1,0 +1,100 @@
+.screen__times ol {
+     /* display: block; */
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.action {
+    background-color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: .875rem;
+    font-weight: normal;
+    line-height: 2.3125rem;
+    margin: 0 15px 0 0;
+    padding: 0 20px;
+    position: relative;
+    text-decoration: none;
+    text-transform: capitalize;
+    vertical-align: middle;
+    user-select: none;
+}
+
+.action.showtime {
+    background-color: #d40f7d;
+    border: 1px solid #d40f7d;
+    font-family: 'Effra', Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.375rem;
+    margin: -5px 5px -3px 0;
+    padding: 0 10px 0 14px;
+    position: relative;
+    text-transform: none;
+}
+
+.action.occupied {
+    background-color: grey;
+    border: 1px solid black;
+    font-family: 'Effra', Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.375rem;
+    margin: -5px 5px -3px 0;
+    padding: 0 10px 0 14px;
+    position: relative;
+    text-transform: none;
+    cursor: not-allowed;
+}
+
+.action.occupied::before {
+    background-color: #fff;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    content: '';
+    display: block;
+    height: 16px;
+    left: -1px;
+    margin-top: -8px;
+    position: absolute;
+    top: 50%;
+    width: 8px;
+}
+
+.action.showtime::before {
+    background-color: #fff;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    content: '';
+    display: block;
+    height: 16px;
+    left: -1px;
+    margin-top: -8px;
+    position: absolute;
+    top: 50%;
+    width: 8px;
+}
+
+
+
+main ol.showtimes>li ol li {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+.list__item {
+    margin-top: 10px;
+}
+
+.list__item:hover a {
+    background-color: rgb(148, 40, 62);
+}
+
