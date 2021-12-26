@@ -39,12 +39,13 @@ const SiteAdmin = () => {
             headerName: "Action",
             width: 180,
             renderCell: (params) => {
+                //console.log("in renderCell: ", params)
                 const onClick = (e) => {
                   e.stopPropagation(); // don't select this row after clicking
           
                   const api = params.api;
                   const thisRow = {};
-          
+
                   api
                     .getAllColumns()
                     .filter((c) => c.field !== '__check__' && !!c)
@@ -80,7 +81,7 @@ const SiteAdmin = () => {
 
                 return (
                     <div>
-                        {console.log("params: ", params.getValue(params.id, 'status'))}
+                        {/*console.log("params: ", params.getValue(params.id, 'status'))*/}
                         {/*params.getValue(params.id, 'status') === "pending" && <Button onClick={onClick}>Approve</Button>*/}
                         {params.getValue(params.id, 'status') === "pending" && (
                             <IconButton aria-label="delete" onClick={onClick}>

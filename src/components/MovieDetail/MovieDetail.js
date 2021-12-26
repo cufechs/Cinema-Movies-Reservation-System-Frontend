@@ -37,7 +37,7 @@ const MovieDetail = (props) => {
         </div>
         {isBookingPressed && 
             <div className="booking">
-                <BookNow movieID={props.movieID}/>
+                <BookNow movieID={movieID}/>
             </div>
             }
         </div>

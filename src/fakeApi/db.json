@@ -56,7 +56,17 @@
       "userName": "abdelrahman",
       "type": "Customer",
       "status": "approved",
-      "id": 7
+      "id": 7,
+      "reservations": [
+        {
+          "movieId": 1,
+          "screenTime": "1:30"
+        },
+        {
+          "movieId": 2,
+          "screenTime": "7:45"
+        }
+      ]
     },
     {
       "id": 8,
@@ -94,5 +104,54 @@
       "type": "Manager",
       "status": "approved"
     }
+  ],
+  "movieReservation": [
+    {
+      "id": 1,
+      "date": "2021-01-01",
+      "start_time": "1:30pm",
+      "screening_room_id": 2,
+      "movieId": 1,
+      "vacant_reserved_seats": [true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true],
+      "price": "100"
+    },
+    {
+      "id": 2,
+      "date": "2021-05-01",
+      "start_time": "12:30am",
+      "screening_room_id": 1,
+      "movieId": 3,
+      "vacant_reserved_seats": [false,false,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true],
+      "price": "120"
+    },
+    {
+      "id": 3,
+      "date": "2021-10-01",
+      "start_time": "2:30pm",
+      "screening_room_id": 1,
+      "movieId": 5,
+      "vacant_reserved_seats": [false,false,false,false,false,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true],
+      "price": "520"
+    },
+    {
+      "id": 4,
+      "date": "2021-10-01",
+      "start_time": "2:30pm",
+      "screening_room_id": 2,
+      "movieId": 2,
+      "vacant_reserved_seats": [false,false,false,false,false,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true],
+      "price": "520"
+    },
+    {
+      "id": 5,
+      "date": "2021-10-09",
+      "start_time": "5:30pm",
+      "screening_room_id": 1,
+      "movieId": 2,
+      "vacant_reserved_seats": [false,false,false,false,false,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,true],
+      "price": "300"
+    }
+    
+
   ]
 }

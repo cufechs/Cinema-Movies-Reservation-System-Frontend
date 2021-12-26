@@ -21,7 +21,7 @@ rows.map((row, i) => {
     initialSeats.push(obj);
 })
 
-console.log(initialSeats);
+//console.log(initialSeats);
 
 const CinemaRoom = () => {
     const [seats, setSeats] = useState(initialSeats);

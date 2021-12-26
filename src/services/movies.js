@@ -14,8 +14,13 @@ export const moviesApi = createApi({
                 console.log("id: ", id.id)
                return `/movies/${id.id}`
             }
+        }),
+        getMovieReservation: builder.query({
+            query: (id) => {
+                return `/movieReservation/?movieId=${id.id}`
+            }
         })
     })
 })
 
-export const { useGetAllMoviesQuery, useGetMovieQuery } = moviesApi;
+export const { useGetAllMoviesQuery, useGetMovieQuery, useGetMovieReservationQuery } = moviesApi;
