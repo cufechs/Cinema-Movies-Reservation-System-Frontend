@@ -9,7 +9,8 @@ const initialState = {
     lastName: "",
     role: "",
     isLoggedIn: false,
-    type: "Guest"
+    type: "Customer",
+    id: 7
 }
 
 const userSlice = createSlice({
