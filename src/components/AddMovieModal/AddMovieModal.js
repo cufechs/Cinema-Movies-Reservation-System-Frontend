@@ -1,29 +1,13 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import { CSSTransition } from 'react-transition-group';
+import './AddMovieModal.css';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import './AddMovieModal.css';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
-import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
+import FormSelection from '../FormSelection/FormSelection';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 600,
-  bgcolor: 'background.paper',
-  border: '0px solid #000',
-  boxShadow: 50,
-  p: 4,
-};
+
 
 const inputStyle = {
     width: '350px',
@@ -39,16 +23,23 @@ const dates = [
     "2021-01-06"
 ];
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
-    }
-  }
-};
+const times = [
+    "13:00",
+    "14:30",
+    "16:00",
+    "18:00",
+    "21:30",
+    "00:00"
+];
+
+const screeing_rooms = [
+    "VIP",
+    "IMAX"
+];
+
+
+
+
 
 const AddMovieModal = (props) => {
 
@@ -56,6 +47,9 @@ const AddMovieModal = (props) => {
     const [description, setDescription] = useState('');
     const [imageLink, setImageLink] = useState('');
     const [datesSelected, setDatesSelected] = useState([]);
+    const [timeSlotsSelected, setTimeSlotsSelected] = useState([]);
+    const [roomsSelected, setRoomsSelected] = useState([]);
+    const [startTimeSelected, setStartTimeSelected] = useState('');
 
     const handleTitleChange = (e) => setTitle(e.target.value);
     const handleDescChange = (e) => setDescription(e.target.value);
@@ -63,73 +57,121 @@ const AddMovieModal = (props) => {
     const handleDatesChange = (e) => {
         setDatesSelected(typeof e.target.value === 'string' ? e.target.value.split(",") : e.target.value);
     }
+    const handleTimeSlotsChange = (e) => {
+        setTimeSlotsSelected(typeof e.target.value === 'string' ? e.target.value.split(",") : e.target.value);
+    }
+    const handleRoomsChange = (e) => {
+        setRoomsSelected(typeof e.target.value === 'string' ? e.target.value.split(",") : e.target.value)
+    }
 
-  return (
-    <div>
-      <Modal
-        open={props.open}
-        onClose={props.handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-            <h2 id="parent-modal-title">Add New Movie</h2>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 
-          </Typography>
-          <div className="inputs">
-            <TextField 
-                style={inputStyle}
-                value={title}
-                onChange={(e) => handleTitleChange(e)}
-                label="Title"
-                color="primary" 
-                //focused 
-            />
-            <TextField 
-                style={inputStyle}
-                value={description}
-                onChange={(e) => handleDescChange(e)}
-                label="Description"
-                color="primary" 
-                 
-            />
-            <TextField 
-                style={inputStyle}
-                value={imageLink}
-                onChange={(e) => handleImageLinkChange(e)}
-                label="Poster Link"
-                color="primary" 
-                 
-            />
-          </div>
-          
-          <FormControl sx={{ m: 1, width: 350 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Dates</InputLabel>
-            <Select
-            labelId="demo-multiple-checkbox-label"
-            id="demo-multiple-checkbox"
-            multiple
-            value={datesSelected}
-            onChange={handleDatesChange}
-            input={<OutlinedInput label="Dates" />}
-            renderValue={(selected) => selected.join(", ")}
-            MenuProps={MenuProps}
-            >
-            {dates.map((date) => (
-                <MenuItem key={date} value={date}>
-                <Checkbox checked={datesSelected.indexOf(date) > -1} />
-                <ListItemText primary={date} />
-                </MenuItem>
-            ))}
-            </Select>
-        </FormControl>
-        </Box>
-        
-      </Modal>
+    const closeModalOnEscapeKeyDown = (e) => {
+        if ((e.charCode || e.keyCode) === 27) props.handleClose();
+    }
+    
+    const handleCancel = () => {
+        setTitle('');
+        setDescription('');
+        setImageLink('');
+        setDatesSelected([]);
+        setTimeSlotsSelected([]);
+        setRoomsSelected([]);
+        setStartTimeSelected('');
+        props.handleClose();
 
-    </div>
-  );
+    }
+
+    // close using escape key
+    useEffect(() => {
+        document.body.addEventListener("keydown", closeModalOnEscapeKeyDown);
+        return function cleanup() {
+          document.body.removeEventListener("keydown", closeModalOnEscapeKeyDown);
+        };
+      }, []);
+
+    return ReactDOM.createPortal(
+        <CSSTransition
+            in={props.open}
+            unmountOnExit
+            timeout={{ enter: 0, exit: 300 }}
+        >
+            <div className="modal" onClick={props.handleClose}>
+                <div className="modal-content" onClick={e => e.stopPropagation()}>
+                <div className="modal-header">
+                    <h2 className="modal-title">Add New Movie</h2>
+                </div>
+                {/* <div className="modal-body">{props.children}</div> */}
+                <div className="modal-body">
+
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+
+                    </Typography>
+                    <div className="inputs">
+                        <TextField 
+                            style={inputStyle}
+                            value={title}
+                            onChange={(e) => handleTitleChange(e)}
+                            label="Title"
+                            color="primary" 
+                            //focused 
+                        />
+                        <TextField 
+                            style={inputStyle}
+                            value={description}
+                            onChange={(e) => handleDescChange(e)}
+                            label="Description"
+                            color="primary" 
+                        />
+                        <TextField 
+                            style={inputStyle}
+                            value={imageLink}
+                            onChange={(e) => handleImageLinkChange(e)}
+                            label="Poster Link"
+                            color="primary" 
+                        />
+
+                    </div>
+                    
+
+                        <FormSelection
+                            label="Rooms"
+                            valsSelected={roomsSelected}
+                            handleSelectedChange={handleRoomsChange}
+                            input_array={screeing_rooms}
+                        />
+
+                        <FormSelection
+                            label="Dates"
+                            valsSelected={datesSelected}
+                            handleSelectedChange={handleDatesChange}
+                            input_array={dates}
+                        />
+
+                        <FormSelection
+                            label="Time"
+                            valsSelected={timeSlotsSelected}
+                            handleSelectedChange={handleTimeSlotsChange}
+                            input_array={times}
+                        />
+                            
+                            
+
+                       
+                    
+                </div>
+                <div className="modal-footer">
+                    <Button variant="outlined" className="create__btn">
+                            Create Movie
+                    </Button>
+                    <Button variant="outlined" onClick={handleCancel}>
+                            Cancel
+                    </Button>
+                </div>
+                </div>
+            </div>
+        </CSSTransition>,
+        document.getElementById("root")
+    )
 }
 
 
