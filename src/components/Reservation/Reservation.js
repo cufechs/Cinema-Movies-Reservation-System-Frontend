@@ -9,14 +9,16 @@ import CinemaRoom from "../CinemaRoom/CinemaRoom";
 import RoomSelect from "../RoomSelect/RoomSelect";
 import ScreenTimes from '../ScreenTimes/ScreenTimes';
 import ReservationSummary from "../ReservationSummary/ReservationSummary";
+import DateSelect from "../DateSelect/DateSelect";
 
-const steps = ["Choose cinema hall", "Choose time", "Choose seat", "Reservation Summary"];
+const steps = ["Choose cinema hall", "Choose date", "Choose time", "Choose seat", "Reservation Summary"];
 
 const Reservation = (props) => {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
     const [selectedHall, setSelectedHall] = useState('');
     const [selectedTime, setSelectedTime] = useState('');
+    const [selectedDate, setSelectedDate] = useState('');
     const [selectedSeat, setSelectedSeat] = useState('');
 
     useEffect(() => {
@@ -24,7 +26,7 @@ const Reservation = (props) => {
     }, [selectedHall])
 
   const isStepOptional = (step) => {
-    return step === 1;
+    return step === 10;
   };
 
   const isStepSkipped = (step) => {
@@ -104,10 +106,16 @@ const Reservation = (props) => {
             ) : activeStep + 1 === 2 ? (
               <>
                 <h1>schedule</h1>
+                <p>selected date: {selectedDate} </p>
+                <DateSelect setSelectedDate={setSelectedDate} selectedDate={selectedDate} dates={["2021-01-01","2021-05-30"]} movieID={props.movieID}/>
+              </>
+            ) : activeStep + 1 === 3 ? (
+              <>
+                <h1>schedule</h1>
                 <p>selected time: {selectedTime} </p>
                 <ScreenTimes setSelectedTime={setSelectedTime} movieID={props.movieID}/>
               </>
-            ) :  activeStep +1 === 3 ? (
+            ):  activeStep +1 === 4 ? (
               <CinemaRoom movieID={props.movieID}/>
             ) : (
                 <ReservationSummary screenTime={selectedTime} cinemaHall={selectedHall} />
@@ -129,7 +137,10 @@ const Reservation = (props) => {
               </Button>
             )}
 
-            <Button onClick={handleNext}>
+            <Button 
+              onClick={handleNext}
+              disabled={(activeStep == 0 && selectedHall == '') || (activeStep == 1 && selectedDate == '') || (activeStep == 2 && selectedTime == '')}
+            >
               {activeStep === steps.length - 1 ? "Finish" : "Next"}
             </Button>
           </Box>

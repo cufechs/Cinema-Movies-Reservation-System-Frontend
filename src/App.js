@@ -8,6 +8,8 @@ import Login from './components/Login/Login';
 import MovieDetail from './components/MovieDetail/MovieDetail';
 import SiteAdmin from './components/SiteAdmin/SiteAdmin';
 import SignUp from './components/SignUp/SignUp';
+import UserReservations from './components/UserReservations/UserReservations';
+import ManagementPage from './components/ManagementPage/ManagementPage';
 
 const App = () => {
   return (
@@ -20,6 +22,8 @@ const App = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/site-administration" element={<SiteAdmin />} />
+          <Route exact path="/my-reservations" element={<UserReservations />} />
+          <Route exact path="/management" element={<ManagementPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
