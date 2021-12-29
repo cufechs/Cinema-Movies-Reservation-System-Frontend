@@ -10,12 +10,13 @@ import SiteAdmin from './components/SiteAdmin/SiteAdmin';
 import SignUp from './components/SignUp/SignUp';
 import UserReservations from './components/UserReservations/UserReservations';
 import ManagementPage from './components/ManagementPage/ManagementPage';
+import Header_v2 from './components/Header_v2/Header_v2';
 
 const App = () => {
   return (
     <div className="app">
       <Router>
-        <Header />
+        <Header_v2 />
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/movies/:movieID" element={<MovieDetail />} />

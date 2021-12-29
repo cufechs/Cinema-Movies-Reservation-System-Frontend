@@ -10,8 +10,8 @@ const Footer = () => {
         px={{ xs: 3, sm: 10 }}
         py={{ xs: 3, sm: 7 }}
         color="white" 
-        bgcolor="#1b1b1d"
-        
+        //bgcolor="#1b1b1d"
+        bgcolor="#0f0f0f"
         >
         <Container maxWidth="lg" >
           <Grid container spacing={5}>

@@ -6,9 +6,12 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../../store/userSlice';
 
 const CustomerHeader = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -21,6 +24,9 @@ const CustomerHeader = () => {
 
     const handleLogout = () => {
         setAnchorEl(null);
+        window.localStorage.removeItem('persistantState');
+        localStorage.clear();
+        dispatch(userActions.logout());
         navigate("/login");
     }
 
