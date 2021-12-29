@@ -9,21 +9,53 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import logo from './cinema_logo.png';
 import { Navigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { useLoginMutation } from '../../services/user';
+import { useNavigate } from 'react-router-dom';
+import { userActions } from '../../store/userSlice';
 
 const Login = () => {
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [login] = useLoginMutation();
   const [redirect, SetRedirect] = React.useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    console.log({
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+    let loginInfo = {
       email: data.get('email'),
       password: data.get('password'),
-    });
-    SetRedirect(true);
+    };
+    try {
+      await login(loginInfo)
+      .then(res => {
+        console.log("response: ", res)
+        console.log("status: ",res.data.status)
+        if (res.data.status) {
+          console.log("logging in")
+          dispatch(userActions.login(loginInfo));
+          navigate("/");
+
+        }
+      });
+    } catch {
+      console.log({
+        title: 'An error occurred',
+        description: "We create new user, try again!",
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      })
+    }
+
+    //SetRedirect(true);
   };
 
   if (redirect) {

@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useDispatch } from 'react-redux';
+import { useSignupUserMutation } from '../../services/user';
+import { useNavigate } from 'react-router-dom';
+import { userActions } from '../../store/userSlice';
 
 function Copyright(props) {
   return (
@@ -29,17 +33,55 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [signupUser] = useSignupUserMutation();
+
+  const [isManager, setIsManager] = React.useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
+
+    let user = {
+      first_name: data.get('firstName'),
+      last_name: data.get('lastName'),
+      username: data.get('username'),
       password: data.get('password'),
-      firstname: data.get('firstName'),
-      lastname: data.get('lastName')
-    });
+      email: data.get('email'),
+      role: isManager ? "manager" : "customer",
+      mobile_number: data.get('phone')
+    };
+
+    console.log("user: ", user);
+    
+    try {
+      await signupUser(user)
+      .then(res => {
+        console.log("response: ", res)
+        console.log("status: ",res.data.status)
+        if (res.data.status) {
+          console.log("loggin in")
+          dispatch(userActions.login(user));
+          navigate("/");
+
+        }
+      });
+    } catch {
+      console.log({
+        title: 'An error occurred',
+        description: "We create new user, try again!",
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      })
+    }
   };
+
+  const handleManagerCheck = (e) => {
+    setIsManager(e.target.checked)
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -86,6 +128,26 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="phone"
+                  label="Phone"
+                  name="phone"
+                  autoComplete="phone"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   id="email"
                   label="Email Address"
                   name="email"
@@ -105,8 +167,8 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  control={<Checkbox value="allowExtraEmails" onChange={(e) =>handleManagerCheck(e)} color="primary" />}
+                  label="Manager"
                 />
               </Grid>
             </Grid>
@@ -127,7 +189,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        {/* <Copyright sx={{ mt: 5 }} /> */}
       </Container>
     </ThemeProvider>
   );
