@@ -12,8 +12,8 @@ import { useGetAllMoviesQuery } from '../../services/movies';
 function MoviesList() {
     const [movies, setMovies] = useState([]);
     const [skip, setSkip] = useState(false);
-    const { data, error, isLoading, isFetching, isSuccess } = useGetAllMoviesQuery({}, {skip: skip});
-
+    const { data, error, isLoading, isFetching, isSuccess } = useGetAllMoviesQuery();
+    console.log("movielist: ", data)
     // useEffect(() => {
     //     axios.get("http://localhost:3000/movies")
     //         .then(res => {
@@ -32,14 +32,14 @@ function MoviesList() {
                         <MovieCard title={movie.title} />
                     </Link>
                 ))} */}
-                {isSuccess && data?.map(movie => (
+                {isSuccess && data?.movies.map(movie => (
                     <Link to={`/movies/${movie.id}`}>
                         <MovieCard 
                             key={movie.id} 
                             id={movie.id} 
                             title={movie.title} 
                             description={movie.description}
-                            src={movie.src}
+                            src={movie.poster_image}
                         />
                     </Link>
                 ))}

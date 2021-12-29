@@ -1,8 +1,9 @@
 .card {
     cursor: pointer;
-    margin: 15px;
+    margin: 10px;
     height: 350px;
     width: 300px;
+    
 }
 
 .card__image img {
@@ -10,6 +11,7 @@
     max-height: 300px;
     object-fit: fill;
     overflow: hidden;
+    border-radius: 30px;
 }
 
 .card_description {

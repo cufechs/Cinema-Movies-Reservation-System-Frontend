@@ -10,9 +10,9 @@ const src = "https://media.istockphoto.com/photos/pop-corn-and-on-red-armchair-c
 const MovieDetail = (props) => {
     const { movieID } = useParams();
     console.log(movieID)
-    const { data, error, isLoading, isFetching, isSuccess } = useGetMovieQuery({id: movieID}, {skip: false});
+    const { data, error, isLoading, isFetching, isSuccess } = useGetMovieQuery(movieID);
     const [isBookingPressed, setIsBookingPressed] = useState(false);
-
+    console.log("moviedetail: ", data)
     const handleBooking = () => {
         setIsBookingPressed(state => !state);
     }
@@ -22,16 +22,16 @@ const MovieDetail = (props) => {
         <div className="movie__detail">
             {isLoading && <div>Loading...(a spinner to be added here:))</div>}
             <div className="left">
-                <p className="title">{data?.title}</p>
+                <p className="title">{data?.movie.title}</p>
                 <div className="description">
-                    {data?.description}
+                    {data?.movie.description}
                     <div className="booking__btn">
                         <Button variant="contained" onClick={handleBooking}>Book Now</Button>
                     </div>
                 </div>
             </div>
             <div className="right">
-                <img src={data?.src} alt="poster image"/>
+                <img src={data?.movie.poster_image} alt="poster image"/>
             </div>
             
         </div>

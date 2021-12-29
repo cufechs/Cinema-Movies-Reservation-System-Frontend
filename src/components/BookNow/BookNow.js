@@ -1,5 +1,4 @@
 import React from 'react';
-import CinemaRoom from '../CinemaRoom/CinemaRoom';
 import Reservation from '../Reservation/Reservation';
 import { useGetMovieReservationQuery } from '../../services/movies';
 
@@ -8,7 +7,7 @@ const BookNow = (props) => {
     console.log("data: ", data)
     return (
         <div>
-            Book seats
+            Book your ticket now!
             <Reservation movieID={props.movieID} reservationData={data}/>
         </div>
     )
