@@ -9,8 +9,9 @@ const initialState = {
     lastName: "",
     role: "",
     isLoggedIn: false,
-    type: "Customer",
-    id: 7
+    type: "guest",
+    id: null,
+    phone: null
 }
 
 const userSlice = createSlice({
@@ -18,11 +19,44 @@ const userSlice = createSlice({
     initialState: initialState,
     reducers: {
         login: (state, action) => {
-            state = action.payload;
+            let {
+                first_name,
+                last_name,
+                username,
+                email,
+                mobile_number,
+                role
+            } = action.payload;
+            state.type = role;
+            state.firstName = first_name;
+            state.lastName = last_name;
+            state.username = username;
+            state.email = email;
+            state.phone = mobile_number;
+            state.role = role;
+            state.isLoggedIn = true
+            let user = { ...action.payload, isLoggedIn: true, type: role }
+            //localStorage.setItem('user', JSON.stringify());
         },
         logout: (state, action) => {
             state = initialState;
-        }
+            // localStorage.removeItem('state');
+            // localStorage.removeItem('user');
+            // localStorage.removeItem('state.user');
+            localStorage.removeItem('persistantState');
+            console.log("logging out");
+        },
+        // signup: (state, action) => {
+        //     let {
+        //         first_name,
+        //         last_name,
+        //         username,
+        //         email,
+        //         mobile_number,
+        //         role
+        //     } = action.payload;
+        //     state.
+        // }
     }
 });
 

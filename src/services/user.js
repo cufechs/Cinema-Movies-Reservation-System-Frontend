@@ -3,12 +3,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const userApi = createApi({
     reducerPath: "userApi",
     baseQuery: fetchBaseQuery({
-       baseUrl: "http://localhost:3000" 
+       baseUrl: "http://127.0.0.1:8000/api" 
     }),
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (loginInfo) => ({
-                url: '/users',
+                url: '/login',
                 method: 'POST',
                 body: loginInfo,
                 headers: {}
@@ -32,6 +32,13 @@ export const userApi = createApi({
                 method: 'PUT',
                 body: rest
             })
+        }),
+        signupUser: builder.mutation({
+            query: (user) => ({
+                url: `/users/create`,
+                method: 'POST',
+                body: user
+            })
         })
     })
 })
@@ -41,5 +48,6 @@ export const {
     useGetAllUsersQuery,
     useGetUserQuery,
     useDeleteUserMutation,
-    useApproveUserMutation
+    useApproveUserMutation,
+    useSignupUserMutation
 } = userApi;
