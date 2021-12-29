@@ -32,7 +32,7 @@ const ScreenTime = (props) => {
     return (
         <li className="list__item">
             {/* <a className={`${'action'} ${props.occupied ? 'occupied' : 'showtime'} `} onClick={handleSelection} >{props.time}pm</a> */}
-            <a className={timeColorClass} onClick={handleSelection} >{props.time}pm</a>
+            <a className={timeColorClass} onClick={handleSelection}  >{props.time}pm</a>
         </li>
     )
 }

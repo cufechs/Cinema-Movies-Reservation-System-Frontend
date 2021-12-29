@@ -19,7 +19,7 @@ const RoomSelect = (props) => {
 
     return (
         <div>
-            <h4>Select Room</h4>
+            <h4 style={{color: "black"}}>Select Room</h4>
             <Box sx={{ minWidth: 120 }}>
             <FormControl style={{minWidth: 320}}>
                 <InputLabel id="demo-simple-select-label">Cinema Hall</InputLabel>
@@ -29,6 +29,7 @@ const RoomSelect = (props) => {
                 value={hall}
                 label="Cinema Hall"
                 onChange={handleChange}
+                
                 >
                 <MenuItem value="vip">VIP</MenuItem>
                 <MenuItem value="imax">IMAX</MenuItem>

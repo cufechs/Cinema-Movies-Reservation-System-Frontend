@@ -68,7 +68,7 @@
 }
 
 .action.occupied::before {
-    background-color: #fff;
+    background-color: #dcdcdc;
     border-bottom-right-radius: 8px;
     border-top-right-radius: 8px;
     content: '';
@@ -82,7 +82,7 @@
 }
 
 .action.showtime::before {
-    background-color: #fff;
+    background-color: #dcdcdc;
     border-bottom-right-radius: 8px;
     border-top-right-radius: 8px;
     content: '';

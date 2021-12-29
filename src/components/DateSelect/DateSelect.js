@@ -20,7 +20,7 @@ const DateSelect = (props) => {
 
     return (
         <div className="date__select">
-            <h4>Select Date</h4>
+            <h4 style={{color: 'black', marginBottom: '15px'}}>Select Date</h4>
             <Box sx={{ minWidth: 120 }}>
             <FormControl style={{minWidth: 320}}>
                 <InputLabel id="demo-simple-select-label">Choose Date</InputLabel>
