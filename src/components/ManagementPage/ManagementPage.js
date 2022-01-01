@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 import AddMovieModal from '../AddMovieModal/AddMovieModal';
+import SnackBar from '../SnackBar/SnackBar';
 
 const style = {
   position: 'absolute',
@@ -105,8 +106,16 @@ const ManagementPage = () => {
     }
 
     const [movieModalOpen, setMovieModalOpen] = useState(false);
+    const [successSnackBarOpen, setSuccessSnackBarOpen] = useState(false);
+    const [errorSnackBarOpen, setErrorSnackBarOpen] = useState(false);
+
     const handleMovieModalOpen=() => setMovieModalOpen(true);
     const handleMovieModalClose=() => setMovieModalOpen(false);
+    const handleCreateMovieSuccess=() => setSuccessSnackBarOpen(true);
+    const handleCloseSuccessSnackbar=() => setSuccessSnackBarOpen(false);
+    
+    const handleCreateMovieError=() => setErrorSnackBarOpen(true);
+    const handleCloseMovieError=() => setErrorSnackBarOpen(false)
 
     return (
         <>
@@ -147,7 +156,25 @@ const ManagementPage = () => {
         <AddMovieModal 
           open={movieModalOpen}
           handleClose={handleMovieModalClose}
-          refetchMovies={refetch} />
+          refetchMovies={refetch} 
+          handleCreateMovieSuccess={handleCreateMovieSuccess}
+          handleCreateMovieError={handleCreateMovieError}
+          //successSnackBarOpen={successSnackBarOpen}
+        />
+
+        <SnackBar 
+          severity="success"
+          message="Movie created successfully!"
+          setOpen={handleCloseSuccessSnackbar}
+          open={successSnackBarOpen} 
+        />
+
+        <SnackBar 
+          severity="error"
+          message="Error creating movie!"
+          setOpen={handleCloseMovieError}
+          open={errorSnackBarOpen} 
+        />
         </>
     )
 }

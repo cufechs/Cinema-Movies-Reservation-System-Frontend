@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import FormSelection from '../FormSelection/FormSelection';
 import { useCreateMovieMutation } from '../../services/manager';
-//import { Snackbar } from '@mui/material';
+import { Snackbar } from '@mui/material';
 
 const inputStyle = {
     width: '350px',
@@ -47,7 +47,7 @@ const AddMovieModal = (props) => {
     const [timeSlotsSelected, setTimeSlotsSelected] = useState([]);
     const [roomsSelected, setRoomsSelected] = useState([]);
     const [startTimeSelected, setStartTimeSelected] = useState('');
-    const [snackBarOpen, setSnackBarOpen] = useState(false);
+    
 
     const [createMovie] = useCreateMovieMutation();
 
@@ -91,12 +91,16 @@ const AddMovieModal = (props) => {
                 poster_image: imageLink,
                 description: description
             }).then(res => {
-                console.log("[CreateMovie]::response: ", res);
-                console.log(res.error.originalStatus);
-                if (res.error.originalStatus == 200) {
+                //console.log("[CreateMovie]::response: ", res);
+                //console.log(res.error.originalStatus);
+                if (res.error.originalStatus === 200) {
                     // success
                     props.refetchMovies();
                     handleCancel();
+                    props.handleCreateMovieSuccess();
+                } else {
+                    handleCancel();
+                    props.handleCreateMovieError();
                 }
             })    
         }
