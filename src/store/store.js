@@ -38,7 +38,10 @@ const store = configureStore({
         [userApi.reducerPath]: userApi.reducer,
         [managerApi.reducerPath]: managerApi.reducer,
     },
-    preloadedState: loadFromLocalStorage(),
+    //preloadedState: loadFromLocalStorage(),
+    preloadedState: {
+      user: loadFromLocalStorage(),
+    },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(moviesApi.middleware)
 });
 
@@ -48,6 +51,5 @@ const store = configureStore({
 
 // listen for store changes and use saveToLocalStorage to
 // save them to localStorage
-store.subscribe(() => saveToLocalStorage(store.getState()));
-
+store.subscribe(() => saveToLocalStorage(store.getState().user));
 export default store;

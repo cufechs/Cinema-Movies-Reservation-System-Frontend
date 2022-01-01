@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+let initialState = {
     username: "",
     password: "", //TODO: remove it (to be replaced by token)
     token: "",
@@ -39,11 +39,16 @@ const userSlice = createSlice({
             //localStorage.setItem('user', JSON.stringify());
         },
         logout: (state, action) => {
-            state = initialState;
+            //state = initialState;
             // localStorage.removeItem('state');
             // localStorage.removeItem('user');
             // localStorage.removeItem('state.user');
             localStorage.removeItem('persistantState');
+            state.email = "";
+            state.role = "guest";
+            state.type = "guest";
+            state.isLoggedIn = false;
+            state.token = "";
             console.log("logging out");
         },
         // signup: (state, action) => {

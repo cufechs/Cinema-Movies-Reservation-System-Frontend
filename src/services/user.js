@@ -27,10 +27,9 @@ export const userApi = createApi({
             })
         }),
         approveUser: builder.mutation({
-            query: ({ id, ...rest }) => ({
-                url: `/users/${id}`,
-                method: 'PUT',
-                body: rest
+            query: (id) => ({
+                url: `/users/approve/${id}`,
+                method: 'PUT'
             })
         }),
         signupUser: builder.mutation({
