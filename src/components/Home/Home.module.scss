@@ -5,3 +5,50 @@
     width: 100%;
     max-height: 400px;
 }
+
+.home_cover {
+    padding: 10rem 0;
+    width: 100%;
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 450px;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        @include overlay();
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        //background-image: linear-gradient(to top, $body-bg, rgba($black, 0));
+    }
+
+    .content {
+        @include flex(center, center);
+        position: relative;
+
+        .info {
+            width: 55%;
+            padding: 0 1rem;
+            position: relative;
+
+            .title {
+                font-size: 5rem;
+                font-weight: 700;
+                line-height: 1;
+            }
+        }
+    }
+}

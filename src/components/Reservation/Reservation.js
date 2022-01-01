@@ -10,6 +10,8 @@ import RoomSelect from "../RoomSelect/RoomSelect";
 import ScreenTimes from '../ScreenTimes/ScreenTimes';
 import ReservationSummary from "../ReservationSummary/ReservationSummary";
 import DateSelect from "../DateSelect/DateSelect";
+//import VIPCinema from "../VIPCinema/VIPCinema";
+import IMAXCinema from "../IMAXCinema/IMAXCinema";
 
 const steps = ["Choose cinema hall", "Choose date", "Choose time", "Choose seat", "Reservation Summary"];
 
@@ -68,7 +70,7 @@ const Reservation = (props) => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", backgroundColor: "#dcdcdc", padding: '20px', borderRadius: '40px' }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
@@ -105,18 +107,20 @@ const Reservation = (props) => {
               <RoomSelect setSelectedHall={setSelectedHall} selectedHall={selectedHall} movieID={props.movieID}/>
             ) : activeStep + 1 === 2 ? (
               <>
-                <h1>schedule</h1>
-                <p>selected date: {selectedDate} </p>
+                <h1 style={{color: "black"}}>schedule</h1>
+                <p style={{color: 'black'}}>selected date: {selectedDate} </p>
                 <DateSelect setSelectedDate={setSelectedDate} selectedDate={selectedDate} dates={["2021-01-01","2021-05-30"]} movieID={props.movieID}/>
               </>
             ) : activeStep + 1 === 3 ? (
               <>
-                <h1>schedule</h1>
-                <p>selected time: {selectedTime} </p>
+                <h1 style={{color: "black"}}>schedule</h1>
+                <p style={{color: 'black'}}>selected time: {selectedTime} </p>
                 <ScreenTimes setSelectedTime={setSelectedTime} movieID={props.movieID}/>
               </>
             ):  activeStep +1 === 4 ? (
-              <CinemaRoom movieID={props.movieID}/>
+              //<VIPCinema movieID={props.movieID} />
+               //<CinemaRoom movieID={props.movieID}/>
+               <IMAXCinema movieID={props.movieID}/>
             ) : (
                 <ReservationSummary screenTime={selectedTime} cinemaHall={selectedHall} />
             )}

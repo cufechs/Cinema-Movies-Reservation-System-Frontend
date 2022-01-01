@@ -14,9 +14,15 @@ const Home = (props) => {
 
     return  (
         <>
-        <div >
-
-            <img className={classes.home_photo} src="https://i2.wp.com/www.dasym.com/wp-content/uploads/2017/07/Cinema-Image-by-Alexandre-Chassignon-on-Flickr.jpg?fit=2304%2C1728&ssl=1" />
+        <div className={classes.home_cover}
+          style={{backgroundImage: `url("https://i2.wp.com/www.dasym.com/wp-content/uploads/2017/07/Cinema-Image-by-Alexandre-Chassignon-on-Flickr.jpg?fit=2304%2C1728&ssl=1")`}}
+        >
+          <div className={`${classes.content}`}>
+            <div className={classes.info}>
+              <h2 className={classes.title}>Cinema Reservation</h2>
+            </div>
+          </div>
+            {/* <img className={classes.home_photo} src="https://i2.wp.com/www.dasym.com/wp-content/uploads/2017/07/Cinema-Image-by-Alexandre-Chassignon-on-Flickr.jpg?fit=2304%2C1728&ssl=1" /> */}
         </div>
         <div className="container">
         <div className="section mb-3">
