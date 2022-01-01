@@ -6,8 +6,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import FormSelection from '../FormSelection/FormSelection';
-
-
+import { useCreateMovieMutation } from '../../services/manager';
+//import { Snackbar } from '@mui/material';
 
 const inputStyle = {
     width: '350px',
@@ -38,9 +38,6 @@ const screeing_rooms = [
 ];
 
 
-
-
-
 const AddMovieModal = (props) => {
 
     const [title, setTitle] = useState('');
@@ -50,6 +47,10 @@ const AddMovieModal = (props) => {
     const [timeSlotsSelected, setTimeSlotsSelected] = useState([]);
     const [roomsSelected, setRoomsSelected] = useState([]);
     const [startTimeSelected, setStartTimeSelected] = useState('');
+    const [snackBarOpen, setSnackBarOpen] = useState(false);
+
+    const [createMovie] = useCreateMovieMutation();
+
 
     const handleTitleChange = (e) => setTitle(e.target.value);
     const handleDescChange = (e) => setDescription(e.target.value);
@@ -81,6 +82,26 @@ const AddMovieModal = (props) => {
 
     }
 
+    const handleCreateMovie = (e) => {
+
+        
+        if (title && description && imageLink) {
+            createMovie({
+                title: title,
+                poster_image: imageLink,
+                description: description
+            }).then(res => {
+                console.log("[CreateMovie]::response: ", res);
+                console.log(res.error.originalStatus);
+                if (res.error.originalStatus == 200) {
+                    // success
+                    props.refetchMovies();
+                    handleCancel();
+                }
+            })    
+        }
+    }
+
     // close using escape key
     useEffect(() => {
         document.body.addEventListener("keydown", closeModalOnEscapeKeyDown);
@@ -108,6 +129,7 @@ const AddMovieModal = (props) => {
                     </Typography>
                     <div className="inputs">
                         <TextField 
+                            required
                             style={inputStyle}
                             value={title}
                             onChange={(e) => handleTitleChange(e)}
@@ -116,6 +138,7 @@ const AddMovieModal = (props) => {
                             //focused 
                         />
                         <TextField 
+                            required
                             style={inputStyle}
                             value={description}
                             onChange={(e) => handleDescChange(e)}
@@ -123,6 +146,7 @@ const AddMovieModal = (props) => {
                             color="primary" 
                         />
                         <TextField 
+                            required
                             style={inputStyle}
                             value={imageLink}
                             onChange={(e) => handleImageLinkChange(e)}
@@ -153,14 +177,11 @@ const AddMovieModal = (props) => {
                             handleSelectedChange={handleTimeSlotsChange}
                             input_array={times}
                         />
-                            
-                            
-
-                       
+                               
                     
                 </div>
                 <div className="modal-footer">
-                    <Button variant="outlined" className="create__btn">
+                    <Button variant="outlined" className="create__btn" onClick={(e) => handleCreateMovie(e)}>
                             Create Movie
                     </Button>
                     <Button variant="outlined" onClick={handleCancel}>

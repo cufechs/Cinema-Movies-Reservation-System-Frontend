@@ -25,11 +25,11 @@ const style = {
 };
 
 const ManagementPage = () => {
-    const { data, error, isLoading, isFetching, isSuccess } = useGetAllMoviesManagerQuery();
+    const { data, error, isLoading, isFetching, isSuccess, refetch } = useGetAllMoviesManagerQuery();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+  
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'title', headerName: 'Title', width: 130 },
@@ -111,13 +111,13 @@ const ManagementPage = () => {
     return (
         <>
         <div className="add__movie">
-            <Button variant="outlined" endIcon={<AddIcon />} onClick={handleMovieModalOpen}>
+            <Button variant="contained" endIcon={<AddIcon />} onClick={handleMovieModalOpen}>
                 Add Movie
             </Button>
         </div>
-        <div className="data__grid">
+        <div className="data__grid__manager">
             <DataGrid
-                rows={data}
+                rows={data?.movies}
                 columns={columns}
                 pageSize={7}
                 rowsPerPageOptions={[5]}
@@ -144,7 +144,10 @@ const ManagementPage = () => {
             </Box>
         </Modal>
         
-        <AddMovieModal open={movieModalOpen} handleClose={handleMovieModalClose}/>
+        <AddMovieModal 
+          open={movieModalOpen}
+          handleClose={handleMovieModalClose}
+          refetchMovies={refetch} />
         </>
     )
 }
