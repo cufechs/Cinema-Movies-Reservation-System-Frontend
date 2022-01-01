@@ -17,20 +17,20 @@ const SiteAdmin = () => {
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'firstName', headerName: 'First name', width: 130 },
-        { field: 'lastName', headerName: 'Last name', width: 130 },
+        { field: 'first_name', headerName: 'First name', width: 130 },
+        { field: 'last_name', headerName: 'Last name', width: 130 },
         {
-          field: 'userName',
+          field: 'username',
           headerName: 'User name',
           width: 130,
         },
         {
-            field: 'type',
+            field: 'role',
             headerName: 'Type',
             width: 95,
         },
         {
-            field: 'status',
+            field: 'management_request',
             headerName: 'Status',
             width: 95
         },
@@ -55,12 +55,13 @@ const SiteAdmin = () => {
                   //return alert(JSON.stringify(thisRow, null, 4));
                   console.log("thisRow before: ", thisRow);
                   let newRow = {
-                      ...thisRow,
-                      status: "approved"
+                      ...thisRow, 
+                      management_request: 0
                   }
                   console.log("thisRow after: ", thisRow);
-                  approveUser({id: newRow.id, ...newRow});
-                  refetch();
+                  //approveUser({id: newRow.id, ...newRow});
+                  approveUser(newRow.id).then(res => refetch())
+                  
                 };
           
                 const declineUser = (e) => {
@@ -75,19 +76,19 @@ const SiteAdmin = () => {
                     .forEach(
                       (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
                     );
-                  deleteUser(thisRow.id);
-                  refetch();
+                  deleteUser(thisRow.id).then(res => refetch());
+                  
                 }
 
                 return (
                     <div>
                         {/*console.log("params: ", params.getValue(params.id, 'status'))*/}
                         {/*params.getValue(params.id, 'status') === "pending" && <Button onClick={onClick}>Approve</Button>*/}
-                        {params.getValue(params.id, 'status') === "pending" && (
+                        {(params.getValue(params.id, 'management_request') === 1 && params.getValue(params.id, 'role') === "customer") && (
                             <IconButton aria-label="delete" onClick={onClick}>
                                 <DoneIcon />
                             </IconButton>
-                        )}
+                        ) }
                         {/* <Button onClick={declineUser}>Remove</Button> */}
                         <IconButton aria-label="delete" onClick={declineUser}>
                             <ClearIcon />
@@ -100,17 +101,17 @@ const SiteAdmin = () => {
       ];
 
     const handleRowSelection = (row) => {
-        setSelectedUser(Array.from(data).filter(user => user.id === parseInt(row[0]))[0]);
+        setSelectedUser(Array.from(data?.users).filter(user => user.id === parseInt(row[0]))[0]);
     }
 
-
+    console.log("data: ", data);
     return (
         <div className="data__grid">
             <p>{selectedUser && selectedUser.firstName}</p>
             <DataGrid
-                rows={data}
+                rows={data?.users}
                 columns={columns}
-                pageSize={5}
+                pageSize={9}
                 rowsPerPageOptions={[5]}
                 checkboxSelection={false}
                 disableSelectionOnClick

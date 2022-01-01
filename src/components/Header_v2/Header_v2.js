@@ -22,6 +22,7 @@ const Header_v2 = () => {
     const navigate = useNavigate();
     const headerRef = useRef(null);
     const userType = useSelector(state => state.user.type);
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn);
     console.log("userType: ",userType);
     let header = null;
 
@@ -54,10 +55,10 @@ const Header_v2 = () => {
       const handleLogout = () => {
           // TODO: dispatch logout, i.e empty the state and remove localstorage
           // TODO: navigate to login
-        window.localStorage.removeItem('persistantState');
-        localStorage.clear();
-        dispatch(userActions.logout());
-        navigate("/login");
+          window.localStorage.removeItem('persistantState');
+          localStorage.clear();
+          dispatch(userActions.logout());
+          navigate("/login");
       }
 
       const Login = (
@@ -93,7 +94,7 @@ const Header_v2 = () => {
                     <li className={classes.active} onClick={() => navigate("/")}>
                         Home
                     </li>
-                    {userType == "customer" ? Login : MyReservations}
+                    {(userType == "customer" || isLoggedIn == false) ? Login : MyReservations}
                     {userType == "guest" ? Signup : Logout}
                 </ul>
             </div>
