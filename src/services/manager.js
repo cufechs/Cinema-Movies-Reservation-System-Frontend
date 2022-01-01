@@ -15,11 +15,19 @@ export const managerApi = createApi({
                 method: 'POST',
                 body: movie
             })
+        }),
+        editMovie: builder.mutation({
+            query: ({id, ...movie}) => ({
+                url: `/movie/update/${id}`,
+                method: 'PUT',
+                body: movie
+            })
         })
     })
 })
 
 export const { 
     useGetAllMoviesManagerQuery,
-    useCreateMovieMutation
+    useCreateMovieMutation,
+    useEditMovieMutation
 } = managerApi;

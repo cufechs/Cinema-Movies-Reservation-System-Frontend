@@ -1,70 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
-import './AddMovieModal.css';
+import './EditMovieModal.css';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import FormSelection from '../FormSelection/FormSelection';
-import { useCreateMovieMutation } from '../../services/manager';
-import { Snackbar } from '@mui/material';
+import { useEditMovieMutation } from '../../services/manager';
 
 const inputStyle = {
     width: '350px',
     margin: '10px'
 };
 
-const dates = [
-    "2021-01-01",
-    "2021-01-02",
-    "2021-01-03",
-    "2021-01-04",
-    "2021-01-05",
-    "2021-01-06"
-];
-
-const times = [
-    "13:00",
-    "14:30",
-    "16:00",
-    "18:00",
-    "21:30",
-    "00:00"
-];
-
-const screeing_rooms = [
-    "VIP",
-    "IMAX"
-];
 
 
-const AddMovieModal = (props) => {
+
+const EditMovieModal = (props) => {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [imageLink, setImageLink] = useState('');
-    const [datesSelected, setDatesSelected] = useState([]);
-    const [timeSlotsSelected, setTimeSlotsSelected] = useState([]);
-    const [roomsSelected, setRoomsSelected] = useState([]);
-    const [startTimeSelected, setStartTimeSelected] = useState('');
     
 
-    const [createMovie] = useCreateMovieMutation();
-
+    const [editMovie] = useEditMovieMutation();
 
     const handleTitleChange = (e) => setTitle(e.target.value);
     const handleDescChange = (e) => setDescription(e.target.value);
     const handleImageLinkChange = (e) => setImageLink(e.target.value);
-    const handleDatesChange = (e) => {
-        setDatesSelected(typeof e.target.value === 'string' ? e.target.value.split(",") : e.target.value);
-    }
-    const handleTimeSlotsChange = (e) => {
-        setTimeSlotsSelected(typeof e.target.value === 'string' ? e.target.value.split(",") : e.target.value);
-    }
-    const handleRoomsChange = (e) => {
-        setRoomsSelected(typeof e.target.value === 'string' ? e.target.value.split(",") : e.target.value)
-    }
-
 
     const closeModalOnEscapeKeyDown = (e) => {
         if ((e.charCode || e.keyCode) === 27) props.handleClose();
@@ -74,37 +36,42 @@ const AddMovieModal = (props) => {
         setTitle('');
         setDescription('');
         setImageLink('');
-        setDatesSelected([]);
-        setTimeSlotsSelected([]);
-        setRoomsSelected([]);
-        setStartTimeSelected('');
         props.handleClose();
 
     }
 
-    const handleCreateMovie = (e) => {
-
-        
+    const handleEditMovie = (e) => {
         if (title && description && imageLink) {
-            createMovie({
+            console.log("editing: ", {
                 title: title,
                 poster_image: imageLink,
                 description: description
-            }).then(res => {
-                //console.log("[CreateMovie]::response: ", res);
-                //console.log(res.error.originalStatus);
+            });
+            let movie = {
+                id: props.currentSelectedMovie.id,
+                title: title,
+                poster_image: imageLink,
+                description: description
+            }
+            editMovie(movie).then(res => {
                 if (res.error.originalStatus === 200) {
                     // success
                     props.refetchMovies();
                     handleCancel();
-                    props.handleCreateMovieSuccess();
+                    props.handleEditMovieSuccess();
                 } else {
                     handleCancel();
-                    props.handleCreateMovieError();
+                    props.handleEditMovieError();
                 }
             })    
         }
     }
+
+    useEffect(() => {
+        setTitle(props.currentSelectedMovie.title);
+        setDescription(props.currentSelectedMovie.description);
+        setImageLink(props.currentSelectedMovie.poster_image);
+    }, [props])
 
     // close using escape key
     useEffect(() => {
@@ -123,7 +90,7 @@ const AddMovieModal = (props) => {
             <div className="modal" onClick={props.handleClose}>
                 <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h2 className="modal-title">Add New Movie</h2>
+                    <h2 className="modal-title">Edit Movie</h2>
                 </div>
                 {/* <div className="modal-body">{props.children}</div> */}
                 <div className="modal-body">
@@ -135,7 +102,7 @@ const AddMovieModal = (props) => {
                         <TextField 
                             required
                             style={inputStyle}
-                            value={title}
+                            value={title ? title : props.currentSelectedMovie.title}
                             onChange={(e) => handleTitleChange(e)}
                             label="Title"
                             color="primary" 
@@ -160,33 +127,10 @@ const AddMovieModal = (props) => {
 
                     </div>
                     
-
-                        {/* <FormSelection
-                            label="Rooms"
-                            valsSelected={roomsSelected}
-                            handleSelectedChange={handleRoomsChange}
-                            input_array={screeing_rooms}
-                        />
-
-                        <FormSelection
-                            label="Dates"
-                            valsSelected={datesSelected}
-                            handleSelectedChange={handleDatesChange}
-                            input_array={dates}
-                        />
-
-                        <FormSelection
-                            label="Time"
-                            valsSelected={timeSlotsSelected}
-                            handleSelectedChange={handleTimeSlotsChange}
-                            input_array={times}
-                        /> */}
-                               
-                    
                 </div>
                 <div className="modal-footer">
-                    <Button variant="outlined" className="create__btn" onClick={(e) => handleCreateMovie(e)}>
-                            Create Movie
+                    <Button variant="outlined" className="create__btn" onClick={(e) => handleEditMovie(e)}>
+                            Edit Movie
                     </Button>
                     <Button variant="outlined" onClick={handleCancel}>
                             Cancel
@@ -202,4 +146,4 @@ const AddMovieModal = (props) => {
 
 
 
-export default AddMovieModal;
+export default EditMovieModal;

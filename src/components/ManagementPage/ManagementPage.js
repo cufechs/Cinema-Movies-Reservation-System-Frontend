@@ -12,6 +12,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 import AddMovieModal from '../AddMovieModal/AddMovieModal';
 import SnackBar from '../SnackBar/SnackBar';
+import EditMovieModal from '../EditMovieModal/EditMovieModal';
 
 const style = {
   position: 'absolute',
@@ -30,6 +31,7 @@ const ManagementPage = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [currentSelectedMovie, setCurrentSelectedMovie] = useState({id: '', title: '', poster_image: '', description: ''});
   
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
@@ -53,6 +55,14 @@ const ManagementPage = () => {
                     (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
                   );
                 handleOpen();
+                console.log("id: ", params.row);
+                setCurrentSelectedMovie({
+                  id: params.id,
+                  title: params.getValue(params.id, 'title'),
+                  poster_image: params.row.poster_image ,
+                  description: params.row.description
+                })
+                handleEditMovieModalOpen();
                 return null;//alert(JSON.stringify(thisRow, null, 4));
               };
         
@@ -105,17 +115,30 @@ const ManagementPage = () => {
 
     }
 
+    // add movie states
     const [movieModalOpen, setMovieModalOpen] = useState(false);
     const [successSnackBarOpen, setSuccessSnackBarOpen] = useState(false);
     const [errorSnackBarOpen, setErrorSnackBarOpen] = useState(false);
+    // edit movie states
+    const [editMovieModalOpen, setEditMovieModalOpen] = useState(false);
+    const [successEditSnackBarOpen, setSuccessEditSnackBarOpen] = useState(false);
+    const [errorEditSnackBarOpen, setErrorEditSnackBarOpen] = useState(false);
 
+    // add movie handlers
     const handleMovieModalOpen=() => setMovieModalOpen(true);
     const handleMovieModalClose=() => setMovieModalOpen(false);
     const handleCreateMovieSuccess=() => setSuccessSnackBarOpen(true);
     const handleCloseSuccessSnackbar=() => setSuccessSnackBarOpen(false);
-    
     const handleCreateMovieError=() => setErrorSnackBarOpen(true);
-    const handleCloseMovieError=() => setErrorSnackBarOpen(false)
+    const handleCloseMovieError=() => setErrorSnackBarOpen(false);
+    
+    // edit movie handlers
+    const handleEditMovieModalOpen=() => setEditMovieModalOpen(true);
+    const handleEditMovieModalClose=() => setEditMovieModalOpen(false);
+    const handleEditMovieSuccess=() => setSuccessEditSnackBarOpen(true);
+    const handleCloseEditSnackbar=() => setSuccessEditSnackBarOpen(false);
+    const handleEditMovieError=() => setErrorEditSnackBarOpen(true);
+    const handleCloseEditMovieError=() => setErrorEditSnackBarOpen(false);
 
     return (
         <>
@@ -137,21 +160,21 @@ const ManagementPage = () => {
             />
                 
         </div>
-        <Modal
+        {/* <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography id="modal-modal-title" variant="h6" component="h2" style={{color: 'black'}}>
                 Text in a modal
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
             </Typography>
             </Box>
-        </Modal>
+        </Modal> */}
         
         <AddMovieModal 
           open={movieModalOpen}
@@ -159,6 +182,16 @@ const ManagementPage = () => {
           refetchMovies={refetch} 
           handleCreateMovieSuccess={handleCreateMovieSuccess}
           handleCreateMovieError={handleCreateMovieError}
+          //successSnackBarOpen={successSnackBarOpen}
+        />
+
+        <EditMovieModal 
+          open={editMovieModalOpen}
+          handleClose={handleEditMovieModalClose}
+          refetchMovies={refetch} 
+          handleEditMovieSuccess={handleEditMovieSuccess}
+          handleEditMovieError={handleEditMovieError}
+          currentSelectedMovie={currentSelectedMovie}
           //successSnackBarOpen={successSnackBarOpen}
         />
 
@@ -175,6 +208,22 @@ const ManagementPage = () => {
           setOpen={handleCloseMovieError}
           open={errorSnackBarOpen} 
         />
+
+        {/* Edit Movie snackbars */}
+        <SnackBar 
+          severity="success"
+          message="Movie edited successfully!"
+          setOpen={handleCloseEditSnackbar}
+          open={successEditSnackBarOpen} 
+        />
+
+        <SnackBar 
+          severity="error"
+          message="Error creating movie!"
+          setOpen={handleCloseEditMovieError}
+          open={errorEditSnackBarOpen} 
+        />
+
         </>
     )
 }
