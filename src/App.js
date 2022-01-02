@@ -11,6 +11,7 @@ import SignUp from './components/SignUp/SignUp';
 import UserReservations from './components/UserReservations/UserReservations';
 import ManagementPage from './components/ManagementPage/ManagementPage';
 import Header_v2 from './components/Header_v2/Header_v2';
+import MovieReservationsPage from './components/MovieReservationsPage/MovieReservationsPage';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route exact path="/site-administration" element={<SiteAdmin />} />
           <Route exact path="/my-reservations" element={<UserReservations />} />
           <Route exact path="/management" element={<ManagementPage />} />
+          <Route exact path="/movie-reservations/:reservationID" element={<MovieReservationsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './ManagementPage.css';
-import { useGetAllMoviesManagerQuery } from '../../services/manager';
+import './MovieReservationsPage.css';
+import { useGetMovieReservationsQuery } from '../../services/manager';
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,7 +14,8 @@ import AddMovieModal from '../AddMovieModal/AddMovieModal';
 import SnackBar from '../SnackBar/SnackBar';
 import EditMovieModal from '../EditMovieModal/EditMovieModal';
 import ViewDetailsModal from '../ViewDetails/ViewDetailsModal';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import EditMovieReservationModal from '../EditMovieReservation/EditMovieReservationModal';
 
 const style = {
   position: 'absolute',
@@ -28,18 +29,29 @@ const style = {
   p: 4,
 };
 
-const ManagementPage = () => {
-    const navigate = useNavigate();
-    const { data, error, isLoading, isFetching, isSuccess, refetch } = useGetAllMoviesManagerQuery();
+const MovieReservationsPage = () => {
+    const { state } = useLocation();
+    console.log("location: ", state);
+    const { data, error, isLoading, isFetching, isSuccess, refetch } = useGetMovieReservationsQuery(state.movieID);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [currentSelectedMovie, setCurrentSelectedMovie] = useState({id: '', title: '', poster_image: '', description: ''});
+    const [currentSelectedReservation, setCurrentSelectedReservation] = useState({
+        id: '', 
+        start_time: '',
+        end_time: '',
+        vacant_reserved_seats: '',
+        capacity: '',
+        price: ''
+    });
   
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'title', headerName: 'Title', width: 130 },
-        { field: 'description', headerName: 'Description', width: 430 },
+        { field: 'start_time', headerName: 'Start Time', width: 170 },
+        { field: 'end_time', headerName: 'End Time', width: 170 },
+        { field: 'vacant_reserved_seats', headerName: 'Seats', width: 270 },
+        { field: 'capacity', headerName: 'Capacity', width: 70 },
+        { field: 'price', headerName: 'Price', width: 70 },
         {
             field: 'action',
             headerName: 'Action',
@@ -57,14 +69,17 @@ const ManagementPage = () => {
                   .forEach(
                     (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
                   );
-                handleOpen();
+                //handleOpen();
                 console.log("id: ", params.row);
-                setCurrentSelectedMovie({
+                setCurrentSelectedReservation({
                   id: params.id,
-                  title: params.getValue(params.id, 'title'),
-                  poster_image: params.row.poster_image ,
-                  description: params.row.description
+                  start_time: params.getValue(params.id, 'start_time'),
+                  end_time: params.row.end_time ,
+                  vacant_reserved_seats: params.row.vacant_reserved_seats,
+                  capacity: params.row.capacity,
+                  price: params.row.price
                 })
+                
                 handleEditMovieModalOpen();
                 return null;//alert(JSON.stringify(thisRow, null, 4));
               };
@@ -73,46 +88,6 @@ const ManagementPage = () => {
               return (
                 <IconButton aria-label="edit" onClick={onClick}>
                     <EditIcon />
-                </IconButton>
-              )
-            },
-          },
-
-          {
-            field: 'details',
-            headerName: 'View detials',
-            sortable: false,
-            width: 110,
-            renderCell: (params) => {
-              const onClick = (e) => {
-                e.stopPropagation(); // don't select this row after clicking
-        
-                const api = params.api;
-                const thisRow = {};
-        
-                api
-                  .getAllColumns()
-                  .filter((c) => c.field !== '__check__' && !!c)
-                  .forEach(
-                    (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
-                  );
-                //handleOpen();
-                //handleViewDetailsModalOpen();
-                navigate(`/movie-reservations/${params.id}`, {
-                  state: {
-                    movieID: params.id,
-                    movieTitle: params.row.title,
-                    moviePoster: params.row.poster_image,
-                    movieDescription: params.row.description
-                  }
-                });
-                return null;//alert(JSON.stringify(thisRow, null, 4));
-              };
-        
-              //return <Button onClick={onClick}>Click</Button>;
-              return (
-                <IconButton aria-label="more" onClick={onClick}>
-                    <MoreHorizIcon />
                 </IconButton>
               )
             },
@@ -160,16 +135,19 @@ const ManagementPage = () => {
     const handleViewDetailsModalOpen=() => setViewDetailsModalOpen(true);
     const handleViewDetailsModalClose=() => setViewDetailsModalOpen(false);
 
+    console.log("data: ", data)
+
     return (
         <>
         <div className="add__movie">
+            <h2>Movie Title: {state.movieTitle}</h2>
             <Button variant="contained" endIcon={<AddIcon />} onClick={handleMovieModalOpen}>
-                Add Movie
+                Add Movie Reservation
             </Button>
         </div>
         <div className="data__grid__manager">
             <DataGrid
-                rows={data?.movies}
+                rows={data?.moviereservation}
                 columns={columns}
                 pageSize={7}
                 rowsPerPageOptions={[5]}
@@ -196,26 +174,26 @@ const ManagementPage = () => {
             </Box>
         </Modal> */}
         
-        <AddMovieModal 
+        {/* <AddMovieModal 
           open={movieModalOpen}
           handleClose={handleMovieModalClose}
           refetchMovies={refetch} 
           handleCreateMovieSuccess={handleCreateMovieSuccess}
           handleCreateMovieError={handleCreateMovieError}
           //successSnackBarOpen={successSnackBarOpen}
-        />
+        /> */}
 
-        <EditMovieModal 
+        <EditMovieReservationModal 
           open={editMovieModalOpen}
           handleClose={handleEditMovieModalClose}
-          refetchMovies={refetch} 
+          refetch={refetch} 
           handleEditMovieSuccess={handleEditMovieSuccess}
           handleEditMovieError={handleEditMovieError}
-          currentSelectedMovie={currentSelectedMovie}
+          currentSelectedReservation={currentSelectedReservation}
           //successSnackBarOpen={successSnackBarOpen}
         />
 
-        <ViewDetailsModal 
+        {/* <ViewDetailsModal 
           open={viewDetailsModalOpen}
           handleClose={handleViewDetailsModalClose}
           refetchMovies={refetch} 
@@ -223,7 +201,7 @@ const ManagementPage = () => {
           handleEditMovieError={handleEditMovieError}
           currentSelectedMovie={currentSelectedMovie}
           //successSnackBarOpen={successSnackBarOpen}
-        />
+        /> */}
 
         {/* Add move snackbars */}
         <SnackBar 
@@ -259,4 +237,4 @@ const ManagementPage = () => {
     )
 }
 
-export default ManagementPage;
+export default MovieReservationsPage;
