@@ -33,7 +33,7 @@ const EditMovieReservationModal = (props) => {
     const [editMovieReservation] = useEditMovieReservationMutation();
 
     
-    console.log("seats: ", props.currentSelectedReservation.vacant_reserved_seats.split(":"))
+    console.log("seats: ", props.currentSelectedReservation.vacant_reserved_seats)
     const handleRoomChange = (e) => {
         setRoomSelected(e.target.value)
     }

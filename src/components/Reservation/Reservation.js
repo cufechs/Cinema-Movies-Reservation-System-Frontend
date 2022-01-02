@@ -12,6 +12,8 @@ import ReservationSummary from "../ReservationSummary/ReservationSummary";
 import DateSelect from "../DateSelect/DateSelect";
 //import VIPCinema from "../VIPCinema/VIPCinema";
 import IMAXCinema from "../IMAXCinema/IMAXCinema";
+import { useGetMovieReservationsQuery } from "../../services/movies";
+
 
 const steps = ["Choose cinema hall", "Choose date", "Choose time", "Choose seat", "Reservation Summary"];
 
@@ -22,10 +24,26 @@ const Reservation = (props) => {
     const [selectedTime, setSelectedTime] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedSeat, setSelectedSeat] = useState('');
+    const { data, error, isLoading, isFetching, isSuccess } = useGetMovieReservationsQuery(props.movieID);
+    const [roomsAvailable, setRoomsAvailable] = useState([]);
+    const [startTimesAvailable, setStartTimesAvailable] = useState([]);
 
     useEffect(() => {
         console.log("selectedHall: ", selectedHall);
-    }, [selectedHall])
+    }, [selectedHall]);
+
+    useEffect(() => {
+      let rooms = data.moviereservation.map(elem => elem.capacity)
+      rooms = [... new Set(rooms)];
+      rooms = rooms.sort();
+      setRoomsAvailable(rooms);
+      
+      let start_dates = data.moviereservation.map(elem => elem.start_time);
+      start_dates = [... new Set(start_dates)];
+      setStartTimesAvailable(start_dates);
+
+    }, [data]);
+
 
   const isStepOptional = (step) => {
     return step === 10;
@@ -104,12 +122,12 @@ const Reservation = (props) => {
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
             {activeStep + 1 === 1 ? (
-              <RoomSelect setSelectedHall={setSelectedHall} selectedHall={selectedHall} movieID={props.movieID}/>
+              <RoomSelect setSelectedHall={setSelectedHall} selectedHall={selectedHall} movieID={props.movieID} rooms={roomsAvailable}/>
             ) : activeStep + 1 === 2 ? (
               <>
                 <h1 style={{color: "black"}}>schedule</h1>
                 <p style={{color: 'black'}}>selected date: {selectedDate} </p>
-                <DateSelect setSelectedDate={setSelectedDate} selectedDate={selectedDate} dates={["2021-01-01","2021-05-30"]} movieID={props.movieID}/>
+                <DateSelect setSelectedDate={setSelectedDate} selectedDate={selectedDate} dates={startTimesAvailable} movieID={props.movieID}/>
               </>
             ) : activeStep + 1 === 3 ? (
               <>

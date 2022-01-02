@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+
 const RoomSelect = (props) => {
     const [hall, setHall] = useState('');
 
@@ -31,8 +32,10 @@ const RoomSelect = (props) => {
                 onChange={handleChange}
                 
                 >
-                <MenuItem value="vip">VIP</MenuItem>
-                <MenuItem value="imax">IMAX</MenuItem>
+                {props.rooms && props.rooms.map(room => (
+                    <MenuItem value={room} key={room}>{room}</MenuItem>
+                ))}
+                
                 </Select>
             </FormControl>
             </Box>
