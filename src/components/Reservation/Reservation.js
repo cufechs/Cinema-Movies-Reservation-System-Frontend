@@ -33,14 +33,17 @@ const Reservation = (props) => {
     }, [selectedHall]);
 
     useEffect(() => {
-      let rooms = data.moviereservation.map(elem => elem.capacity)
-      rooms = [... new Set(rooms)];
-      rooms = rooms.sort();
-      setRoomsAvailable(rooms);
+      if (data && data.moviereservation) {
+        let rooms = data.moviereservation.map(elem => elem.capacity)
+        rooms = [... new Set(rooms)];
+        rooms = rooms.sort();
+        setRoomsAvailable(rooms);
+        
+        let start_dates = data.moviereservation.map(elem => elem.start_time);
+        start_dates = [... new Set(start_dates)];
+        setStartTimesAvailable(start_dates);
+      }
       
-      let start_dates = data.moviereservation.map(elem => elem.start_time);
-      start_dates = [... new Set(start_dates)];
-      setStartTimesAvailable(start_dates);
 
     }, [data]);
 
