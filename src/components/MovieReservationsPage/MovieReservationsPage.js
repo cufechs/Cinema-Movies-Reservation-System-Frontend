@@ -16,6 +16,8 @@ import EditMovieModal from '../EditMovieModal/EditMovieModal';
 import ViewDetailsModal from '../ViewDetails/ViewDetailsModal';
 import { useLocation } from 'react-router-dom';
 import EditMovieReservationModal from '../EditMovieReservation/EditMovieReservationModal';
+import AddReservationModal from '../AddReservationModal/AddReservationModal';
+
 
 const style = {
   position: 'absolute',
@@ -174,14 +176,15 @@ const MovieReservationsPage = () => {
             </Box>
         </Modal> */}
         
-        {/* <AddMovieModal 
+        <AddReservationModal 
           open={movieModalOpen}
           handleClose={handleMovieModalClose}
-          refetchMovies={refetch} 
+          refetch={refetch} 
           handleCreateMovieSuccess={handleCreateMovieSuccess}
           handleCreateMovieError={handleCreateMovieError}
+          movieID={state.movieID}
           //successSnackBarOpen={successSnackBarOpen}
-        /> */}
+        />
 
         <EditMovieReservationModal 
           open={editMovieModalOpen}

@@ -32,6 +32,13 @@ export const managerApi = createApi({
                 method: 'PUT',
                 body: reservation
             })
+        }),
+        addMovieReservation: builder.mutation({
+            query: (reservation) => ({
+                url: `/moviereservations/create`,
+                method: 'POST',
+                body: reservation
+            })
         })
     })
 })
@@ -41,5 +48,6 @@ export const {
     useCreateMovieMutation,
     useEditMovieMutation,
     useGetMovieReservationsQuery,
-    useEditMovieReservationMutation
+    useEditMovieReservationMutation,
+    useAddMovieReservationMutation
 } = managerApi;

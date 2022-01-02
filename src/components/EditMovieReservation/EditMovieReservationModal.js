@@ -163,7 +163,7 @@ const EditMovieReservationModal = (props) => {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={roomSelected}
-                        label="Age"
+                        label="Room"
                         onChange={handleRoomChange}
                         >
                         <MenuItem value={20}>20</MenuItem>
