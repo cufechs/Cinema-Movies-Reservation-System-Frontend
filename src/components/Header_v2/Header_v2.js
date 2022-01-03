@@ -23,6 +23,7 @@ const Header_v2 = () => {
     const headerRef = useRef(null);
     const userType = useSelector(state => state.user.type);
     const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+    
     console.log("userType: ",userType);
     let header = null;
 
@@ -94,7 +95,7 @@ const Header_v2 = () => {
                     <li className={classes.active} onClick={() => navigate("/")}>
                         Home
                     </li>
-                    {(userType == "customer" || isLoggedIn == false) ? Login : MyReservations}
+                    {(userType == "guest" || isLoggedIn == false) ? Login : MyReservations}
                     {userType == "guest" ? Signup : Logout}
                 </ul>
             </div>

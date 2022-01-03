@@ -37,7 +37,8 @@ const Login = () => {
       await login(loginInfo)
       .then(res => {
         console.log("response: ", res)
-        console.log("status: ",res.data.status)
+        console.log("status: ",res.data.status);
+        loginInfo = { ...loginInfo, ...res.data.data}
         if (res.data.status) {
           console.log("logging in")
           dispatch(userActions.login(loginInfo));
