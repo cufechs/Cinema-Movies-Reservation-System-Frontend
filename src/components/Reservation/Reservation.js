@@ -12,14 +12,17 @@ import ReservationSummary from "../ReservationSummary/ReservationSummary";
 import DateSelect from "../DateSelect/DateSelect";
 //import VIPCinema from "../VIPCinema/VIPCinema";
 import IMAXCinema from "../IMAXCinema/IMAXCinema";
-import { useGetMovieReservationsQuery } from "../../services/movies";
+import { useGetMovieReservationsQuery, useReserveTicketMutation } from "../../services/movies";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 const steps = ["Choose cinema hall", "Choose date", "Choose time", "Choose seat", "Reservation Summary"];
 
 const Reservation = (props) => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [skipped, setSkipped] = useState(new Set());
+    const navigate = useNavigate();
+    const [activeStep, setActiveStep] = useState(0);
+    const [skipped, setSkipped] = useState(new Set());
     const [selectedHall, setSelectedHall] = useState('');
     const [selectedTime, setSelectedTime] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
@@ -27,6 +30,14 @@ const Reservation = (props) => {
     const { data, error, isLoading, isFetching, isSuccess } = useGetMovieReservationsQuery(props.movieID);
     const [roomsAvailable, setRoomsAvailable] = useState([]);
     const [startTimesAvailable, setStartTimesAvailable] = useState([]);
+    const [seatsAvailable, setSeatsAvailable] = useState([]);
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [price, setPrice] = useState('');
+    const [movieReservationId, setMovieReservationId] = useState('');
+
+    const userId = useSelector(state => state.user.id);
+    const token = useSelector(state => state.user.token);
+    const [reserveTicket] = useReserveTicketMutation();
 
     useEffect(() => {
         console.log("selectedHall: ", selectedHall);
@@ -39,13 +50,70 @@ const Reservation = (props) => {
         rooms = rooms.sort();
         setRoomsAvailable(rooms);
         
-        let start_dates = data.moviereservation.map(elem => elem.start_time);
-        start_dates = [... new Set(start_dates)];
-        setStartTimesAvailable(start_dates);
+        
+        console.log("data moviereservation: ",data.moviereservation)
       }
       
 
     }, [data]);
+
+    useEffect(() => {
+      if (data && data.moviereservation) {
+        let start_dates = data.moviereservation.filter(elem => elem.capacity == selectedHall).map(elem => elem.start_time);
+        start_dates = [... new Set(start_dates)];
+        setStartTimesAvailable(start_dates);
+
+      }
+    }, [selectedHall]);
+
+    useEffect(() => {
+      if (data && data.moviereservation && selectedHall) {
+        let seats = data.moviereservation.filter(elem => elem.capacity === selectedHall).filter(elem => elem.start_time == selectedDate).map(elem => elem.vacant_reserved_seats);
+        if (seats && seats.length >= 1) {
+          seats = JSON.parse(seats[0]);
+          setSeatsAvailable(seats);
+        }
+      }
+    }, [selectedHall, selectedDate]);
+
+    useEffect(() => {
+      if (seatsAvailable && data && data.moviereservation) {
+        let d = data.moviereservation.filter(elem => elem.capacity == selectedHall).filter(elem => elem.start_time == selectedDate);
+        console.log(d);
+        if (d && d.length >= 1) {
+          setMovieReservationId(d[0].id);
+          setPrice(d[0].price);
+        }
+      }
+    }, [seatsAvailable]);
+
+    // useEffect(() => {
+    //   console.log("selectedDate: ", selectedDate, ", selectedHall: ", selectedHall);
+    //   let seats = data?.moviereservation.filter(elem => elem.start_time == selectedDate && elem.capacity == selectedHall);
+    //   //seats = JSON.parse(seats);
+    //   console.log("seats: ", seats)
+    // }, [selectedDate, selectedHall]);
+
+    const bookTicket = () => {
+      console.log("userId: ", userId, ", reservationId: ", movieReservationId, ", seat no.: ", selectedSeats);
+      let req = {
+        user_id: userId,
+        id: movieReservationId,
+        seat_no: selectedSeats[0]
+      }
+
+      reserveTicket(req).then(res => {
+        console.log("reservation response: ", res);
+        if (res.data && res.data.status) {
+          setSelectedSeats([]);
+          setMovieReservationId('');
+          //data = '';
+          navigate("/");
+        }
+      })
+
+    
+    }
 
 
   const isStepOptional = (step) => {
@@ -88,6 +156,7 @@ const Reservation = (props) => {
 
   const handleReset = () => {
     setActiveStep(0);
+    bookTicket();
   };
 
   return (
@@ -113,12 +182,13 @@ const Reservation = (props) => {
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
+          
+          <Typography sx={{ mt: 2, mb: 1 }} style={{color: 'black'}}>
+            All steps completed - press Confirm
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>Reset</Button>
+            <Button onClick={handleReset}>Confirm</Button>
           </Box>
         </React.Fragment>
       ) : (
@@ -141,14 +211,30 @@ const Reservation = (props) => {
             ):  activeStep +1 === 4 ? (
               //<VIPCinema movieID={props.movieID} />
                //<CinemaRoom movieID={props.movieID}/>
-               <IMAXCinema movieID={props.movieID}/>
+               <>
+               <p style={{color: 'black'}}>Selected Seats: {selectedSeats}</p>
+               <IMAXCinema 
+                capacity={selectedHall}
+                seats={seatsAvailable}
+                setSeats={setSeatsAvailable}
+                movieID={props.movieID}
+                setSelectedSeats={setSelectedSeats}
+               />
+               </>
             ) : (
-                <ReservationSummary screenTime={selectedTime} cinemaHall={selectedHall} />
+                <ReservationSummary 
+                  screenTime={selectedDate} 
+                  cinemaHall={selectedHall} 
+                  seats={selectedSeats}
+                  price={price}
+                  movieID={props.movieID}
+                  userId={userId}
+                  movieReservationId={movieReservationId}
+                />
             )}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
-              color="inherit"
               disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}

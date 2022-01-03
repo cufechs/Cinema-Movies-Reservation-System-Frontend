@@ -22,6 +22,13 @@ export const moviesApi = createApi({
         }),
         getMovieReservations: builder.query({
             query: (id) => `/moviereservations/getReservations/${id}`
+        }),
+        reserveTicket: builder.mutation({
+            query: ({user_id, ...rest}) => ({
+                url: `/moviereservations/reserve/${user_id}`,
+                method: 'PUT',
+                body: rest
+            })
         })
     })
 })
@@ -30,6 +37,6 @@ export const {
     useGetAllMoviesQuery,
     useGetMovieQuery,
     useGetMovieReservationQuery,
-    useGetMovieReservationsQuery
-    
+    useGetMovieReservationsQuery,
+    useReserveTicketMutation
 } = moviesApi;

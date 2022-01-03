@@ -23,21 +23,23 @@ rows.map((row, i) => {
 
 //console.log(initialSeats);
 // 30 seats
-initialSeats = Array.from(Array(30)).map((e, i) => i);
-for (let i = 0; i < initialSeats.length; i++) initialSeats[i]=false;
-initialSeats[5] = true;
-initialSeats[13] = true;
+initialSeats = Array.from(Array(20)).map((e, i) => i);
+// for (let i = 0; i < initialSeats.length; i++) initialSeats[i]=0;
+// initialSeats[5] = 1;
+// initialSeats[13] = 1;
 
-const IMAXCinema = () => {
-    const [seats, setSeats] = useState(initialSeats);
+const IMAXCinema = (props) => {
+    
+    const [seats, setSeats] = useState(props.seats.seats);
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [reservedSeats, setReservedSeats] = useState([]);
 
     useEffect(() => {
-        let seatsIndices = initialSeats.map((e, i) => e === true ? i : '').filter(String);
+        let seatsIndices = seats.map((e, i) => e === 1 ? i : '').filter(String);
+        console.log(seatsIndices)
         setReservedSeats(seatsIndices);
         
-    }, []);
+    }, [props.seats.seats]);
 
     const handleChairClick = (seatIndex) => {
 
@@ -46,11 +48,11 @@ const IMAXCinema = () => {
         if (!(reservedSeats.includes(seatIndex))) {
             if (selectedSeats.includes(seatIndex)) {
                 // already selected, then unselect this seat
-                newSeats[seatIndex] = false;
+                newSeats[seatIndex] = 0;
                 // remove from selectedSeats
                 newSelectedSeats.splice(newSelectedSeats.indexOf(seatIndex), 1); 
             } else {
-                newSeats[seatIndex] = true;
+                newSeats[seatIndex] = 1;
                 newSelectedSeats.push(seatIndex);
             }
 
@@ -58,7 +60,14 @@ const IMAXCinema = () => {
         }
         setSeats(newSeats);
         setSelectedSeats(newSelectedSeats);
+        props.setSelectedSeats(newSelectedSeats.map(elem => elem+1));
+        console.log("seats: ",seats);
+        
     }
+
+    useEffect(() => {
+        console.log("selectedSeats: ", selectedSeats);
+    }, [selectedSeats]);
 
     return (
         <div className={classes.container}>

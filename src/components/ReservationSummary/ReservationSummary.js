@@ -8,7 +8,7 @@ const ReservationSummary = (props) => {
             <p>Cinema Hall: {props.cinemaHall}</p>
             <p>Screen Start Time: {props.screenTime}</p>
             <p>Seat(s): {props.seats}</p>
-            <p className="total__amount">Total: L.E</p>
+            <p className="total__amount">Total: {props.price} L.E</p>
         </div>
     )
 }
