@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import classes from './IMAXCinema.module.scss';
+import { useSelector } from 'react-redux';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { useNavigate } from 'react-router-dom';
 
 // get the first 20 letters from the alphabet (capitalized)
 const rows = Array.from(Array(6)).map((e, i) => i + 65)
@@ -29,10 +37,12 @@ initialSeats = Array.from(Array(20)).map((e, i) => i);
 // initialSeats[13] = 1;
 
 const IMAXCinema = (props) => {
-    
+    const userType = useSelector(state => state.user.role);
     const [seats, setSeats] = useState(props.seats.seats);
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [reservedSeats, setReservedSeats] = useState([]);
+    const [alertOpen, setAlertOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let seatsIndices = seats.map((e, i) => e === 1 ? i : '').filter(String);
@@ -41,7 +51,15 @@ const IMAXCinema = (props) => {
         
     }, [props.seats.seats]);
 
+    const handleAlertClose = () => setAlertOpen(false);
+    const handleGotoLogin = () => navigate("/login");
+
     const handleChairClick = (seatIndex) => {
+
+        if (userType == "guest") {
+            setAlertOpen(true);
+            return;
+        }
 
         let newSeats = [...seats];
         let newSelectedSeats = [...selectedSeats];
@@ -70,6 +88,7 @@ const IMAXCinema = (props) => {
     }, [selectedSeats]);
 
     return (
+        <>
         <div className={classes.container}>
         <div className={classes.cinema__room}>
             IMAX Cinema 
@@ -89,6 +108,30 @@ const IMAXCinema = (props) => {
             </div>
         </div>
         </div>
+
+        <Dialog
+            open={alertOpen}
+            onClose={handleAlertClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">
+            {"Looks like you are not signed in"}
+            </DialogTitle>
+            <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+                Would you like to login or signup?
+            </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={handleAlertClose}>Stay Here</Button>
+            <Button onClick={handleGotoLogin} autoFocus>
+                Go to Login
+            </Button>
+            </DialogActions>
+        </Dialog>
+
+        </>
     )
 }
 
