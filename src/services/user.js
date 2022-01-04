@@ -39,6 +39,23 @@ export const userApi = createApi({
                 method: 'POST',
                 body: user
             })
+        }),
+        getUserReservations: builder.query({
+            query: (id) => ({
+                url: `/moviereservations/reservation/${id}`
+            }),
+            transformResponse: response => {
+                let res = []
+                let movieReservations = response.moviereservations;
+                
+                for (let i = 0; i < movieReservations.length; i++) {
+                    res.push({...movieReservations[i], ...movieReservations[i].pivot})
+                }
+                //console.log("res: ", res)
+                //console.log('response: ', movieReservations);
+                response.moviereservations = res;
+                return response;
+            }
         })
     })
 })
@@ -49,5 +66,6 @@ export const {
     useGetUserQuery,
     useDeleteUserMutation,
     useApproveUserMutation,
-    useSignupUserMutation
+    useSignupUserMutation,
+    useGetUserReservationsQuery
 } = userApi;
