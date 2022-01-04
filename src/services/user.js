@@ -49,10 +49,12 @@ export const userApi = createApi({
                 let movieReservations = response.moviereservations;
                 
                 for (let i = 0; i < movieReservations.length; i++) {
-                    res.push({...movieReservations[i], ...movieReservations[i].pivot})
+                    let reservation = movieReservations[i];
+                    let { id, ...reserv } = reservation;
+                    res.push({...reserv, ...reserv.pivot, moviereservationId: id, id: i})
                 }
                 //console.log("res: ", res)
-                //console.log('response: ', movieReservations);
+                console.log('response: ', movieReservations);
                 response.moviereservations = res;
                 return response;
             }

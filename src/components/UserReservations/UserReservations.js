@@ -56,110 +56,189 @@
 
 // export default UserReservations;
 
-import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
-import axios from 'axios';
+// import React, { useState, useEffect } from 'react';
+// import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
+// //import axios from 'axios';
+// import './UserReservations.css';
+// import { useGetUserReservationsQuery } from '../../services/user';
+// import IconButton from '@mui/material/IconButton';
+// import ClearIcon from '@mui/icons-material/Clear';
+// import { useSelector } from 'react-redux';
 
+// const UserReservation = (props) => {
+//     const [movies, setMovies] = useState([]);
+//     const userId = useSelector(state => state.user.id);
+//     const {data, isLoading, isSuccess, isError, refetch } = useGetUserReservationsQuery(userId);
+//     console.log(data)
+//     const columns = [
+//         //{ field: 'id', headerName: 'ID', width: 70 },
+//         { field: 'start_time', headerName: 'Start Time', width: 190 },
+//         { field: 'capacity', headerName: 'Cinema Capacity', width: 140 },
+//         { field: 'price', headerName: 'Price (LE)', width: 100 },
+//         { field: 'movie_id', headerName: 'Movie Id', width: 130 },
+//         { field: 'seat_no', headerName: 'Seat no.', width: 90 },
+//         {
+//           field: 'action',
+//           headerName: 'Cancel Reservation',
+//           width: 160,
+//           sortable: false,
+//           renderCell: (params) => {
+//             //console.log("in renderCell: ", params)
+//             const deleteReservation = (e) => {
+//                 e.stopPropagation(); // don't select this row after clicking
+      
+//               const api = params.api;
+//               const thisRow = {};
+      
+//               api
+//                 .getAllColumns()
+//                 .filter((c) => c.field !== '__check__' && !!c)
+//                 .forEach(
+//                   (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
+//                 );
+//               //deleteUser(thisRow.id).then(res => refetch());
+              
+//             }
 
+//             return (
+                
+//               <IconButton aria-label="delete" onClick={deleteReservation}>
+//                   <ClearIcon />
+//               </IconButton>
+                
+//             );
+//           },
+//         },
+//       ];
+    
+//       useEffect(() => {
+//         // const movieIds = rows.map(e => e.id);
+//         // const exec = async () => {
+//         //     const fetchedMovies = await Promise.all(rows.map(movie => {
+//         //       return axios.get(`http://localhost:3000/movies?id=${movie.id}`)
+//         //     }))
+//         //     console.log("fetchedMovies: ", fetchedMovies.map(movie => movie.data[0]));
+//         //     setMovies(fetchedMovies.map(movie => movie.data[0]));
+//         //   };
+       
+//         //   exec();
+          
+//       }, []);
 
-const UserReservation = (props) => {
-    const [movies, setMovies] = useState([]);
+//       console.log("data: ", data?.moviereservations)
+//   return (
+//     <div style={{ height: 400, width: '100%' }}>
+//       <div className='data__grid__reservations'>
+//        {/* <DataGrid 
+//         rows={rows}
+//         columns={columns}
+//         pageSize={7}
+//         rowsPerPageOptions={[5]}
+//         checkboxSelection /> */}
+//         <DataGrid
+//             rows={data?.moviereservations}
+//             columns={columns}
+//             pageSize={7}
+//             rowsPerPageOptions={[5]}
+//             checkboxSelection={false}
+//             disableSelectionOnClick
+//             //onSelectionModelChange={(row) => handleRowSelection(row)}
+//             //onRowClick={(row) => handleRowSelection(row)}
+//         />
+//       </div>
+      
+//     </div>
+//   );
+// }
+
+// export default UserReservation;
+
+import React, { useState } from 'react';
+import { useGetUserReservationsQuery } from '../../services/user';
+import './UserReservations.css';
+import { DataGrid } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import ClearIcon from '@mui/icons-material/Clear';
+import DoneIcon from '@mui/icons-material/Done';
+import { useSelector } from 'react-redux';
+
+const UserReservations = () => {
+    const userId = useSelector(state => state.user.id);
+    const {data, isLoading, isSuccess, isError, refetch } = useGetUserReservationsQuery(userId);
+    const [selectedUser, setSelectedUser] = useState(null);
+    // const [deleteUser] = useDeleteUserMutation();
+    // const [approveUser] = useApproveUserMutation();
 
     const columns = [
+        { field: 'id', headerName: 'Row ID', width: 80 },
+        { field: 'start_time', headerName: 'Start Time', width: 170 },
+        { field: 'seat_no', headerName: 'Seat no', width: 90 },
+        { field: 'movie_id', headerName: 'Movie Id', width: 90 },
+        { field: 'capacity', headerName: 'Capacity', width: 120 },
         {
-          field: 'action',
-          headerName: 'Action',
-          sortable: false,
-          renderCell: (params) => {
-            const onClick = (e) => {
-              e.stopPropagation(); // don't select this row after clicking
-      
-              const api = params.api;
-              const thisRow = {};
-      
-              api
-                .getAllColumns()
-                .filter((c) => c.field !== '__check__' && !!c)
-                .forEach(
-                  (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
-                );
-      
-              return alert(JSON.stringify(thisRow, null, 4));
-            };
-      
-            return <p>Hello</p>;//<Button onClick={onClick}>Click</Button>;
-          },
-        },
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'title', headerName: 'Title', width: 130 },
-        { field: 'description', headerName: 'Description', width: 130 },
-      
-        {
-          field: 'fullName',
-          headerName: 'Full name',
-          description: 'This column has a value getter and is not sortable.',
-          sortable: false,
-          width: 160,
-          valueGetter: (params) => {
-            //   let movie = null;
-            //   const getMovie = async (params) => {
-            //       let movieid = params.getValue(params.id, 'id');
-            //       try {
-            //           const response = await axios.get(`http://localhost:3000/movies?id=${movieid}`)
-            //           //console.log("response: ", response);
-            //           movie = response.data;
-            //           console.log("movie async: ", movie);
-                      
-            //       } catch(error) {
-            //           console.log("error: ", error)
-            //       }
-            //   }
-              
-            //   getMovie(params);
-            //   console.log("movie data: ", movie);
-            // return `${params.getValue(params.id, 'title') || ''} ${
-            //   params.getValue(params.id, 'id') || ''
-            // }`
-            let _movies = movies.filter(movie => typeof(movie) != "undefined")
-            let movie = _movies ? _movies.filter(movie => movie.id == params.getValue(params.id, 'id')) : null;
-            return `${movie.length > 0 ? movie[0].title : ''}`
-          },
-        },
-      ];
-      
-      const rows = [
-        { id: 1, title: 'Snow', description: 'Jon', age: 35 },
-        { id: 2, title: 'Lannister', description: 'Cersei', age: 42 },
-        { id: 3, title: 'Lannister', description: 'Jaime', age: 45 },
-        { id: 4, title: 'Stark', description: 'Arya', age: 16 },
-        { id: 5, title: 'Targaryen', description: 'Daenerys', age: null },
-        { id: 6, title: 'Melisandre', description: null, age: 150 },
-        { id: 7, title: 'Clifford', description: 'Ferrara', age: 44 },
-        { id: 8, title: 'Frances', description: 'Rossini', age: 36 },
-        { id: 9, title: 'Roxie', description: 'Harvey', age: 65 },
-      ];
-
-
-      useEffect(() => {
-        const movieIds = rows.map(e => e.id);
-        const exec = async () => {
-            const fetchedMovies = await Promise.all(rows.map(movie => {
-              return axios.get(`http://localhost:3000/movies?id=${movie.id}`)
-            }))
-            console.log("fetchedMovies: ", fetchedMovies.map(movie => movie.data[0]));
-            setMovies(fetchedMovies.map(movie => movie.data[0]));
-          };
-       
-          exec();
+            field: "action",
+            headerName: "Action",
+            width: 180,
+            renderCell: (params) => {
+                //console.log("in renderCell: ", params)
+                const cancelReservation = (e) => {
+                    e.stopPropagation(); // don't select this row after clicking
           
-      }, []);
+                  const api = params.api;
+                  const thisRow = {};
+          
+                  api
+                    .getAllColumns()
+                    .filter((c) => c.field !== '__check__' && !!c)
+                    .forEach(
+                      (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
+                    );
+                    console.log(params.row);
+                    // movie_reservation_id
+                  //deleteUser(thisRow.id).then(res => refetch());
+                  
+                }
 
-  return (
-    <div style={{ height: 400, width: '100%' }}>
-      { movies.length > 0 && <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />}
-    </div>
-  );
+                return (
+                    <div>
+                      <IconButton aria-label="delete" onClick={cancelReservation}>
+                          <ClearIcon />
+                      </IconButton>
+                    </div>
+                );
+              },
+        }
+        
+      ];
+
+    const handleRowSelection = (row) => {
+        setSelectedUser(Array.from(data?.users).filter(user => user.id === parseInt(row[0]))[0]);
+    }
+
+    const rows = [
+      {id: 0, s: 1},
+      {id: 1, s: 2}
+    ]
+
+    console.log("data: ", data?.moviereservations);
+    return (
+        <div className="data__grid">
+            <DataGrid
+                rows={data?.moviereservations}
+                //rows={rows}
+                columns={columns}
+                pageSize={9}
+                rowsPerPageOptions={[5]}
+                checkboxSelection={false}
+                disableSelectionOnClick
+                onSelectionModelChange={(row) => handleRowSelection(row)}
+            />
+                
+        </div>
+    )
 }
 
-export default UserReservation;
+
+
+export default UserReservations;
+
