@@ -15,6 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import { useGetMovieReservationsQuery } from '../../services/manager';
+import { useSnackbar } from 'notistack';
 
 const inputStyle = {
     width: '350px',
@@ -25,17 +26,30 @@ const inputStyle = {
 
 
 const EditMovieReservationModal = (props) => {
-
+    const { enqueueSnackbar } = useSnackbar();
     const [roomSelected, setRoomSelected] = useState('');
     const [startTimeSelected, setStartTimeSelected] = useState('');
     const [endTimeSelected, setEndTimeSelected] = useState('');
     const [price, setPrice] = useState('');
     const [editMovieReservation] = useEditMovieReservationMutation();
-
+    
+    const handleClickVariant = (variant, msg) => {
+        // variant could be success, error, warning, info, or default
+        enqueueSnackbar(msg, { variant });
+    };
     
     console.log("seats: ", props.currentSelectedReservation.vacant_reserved_seats)
     const handleRoomChange = (e) => {
         setRoomSelected(e.target.value)
+    }
+    const handlePriceChange = (e) => {
+        setPrice(e.target.value);
+    }
+    const handleStartTimeChange = (e) => {
+        setStartTimeSelected(e.target.value);
+    }
+    const handleEndTimeChange = (e) => {
+        setEndTimeSelected(e.target.value);
     }
 
     const closeModalOnEscapeKeyDown = (e) => {
@@ -55,21 +69,31 @@ const EditMovieReservationModal = (props) => {
         
         let reservation = {
             id: props.currentSelectedReservation.id,
-            capacity: roomSelected
+            capacity: roomSelected,
+            price: price,
+            start_time: startTimeSelected.replace(/\s/g, 'T'),
+            end_time: endTimeSelected.replace(/\s/g, 'T')
         }
 
         editMovieReservation(reservation).then(res => {
             console.log("res: ", res)
-            console.log(res.data.status)
-            if (res.data.status === true) {
+            if (res.data && res.data.status === true) {
+                console.log(res?.data.status)
                 // success
                 props.refetch();
                 handleCancel();
                 props.handleEditMovieSuccess();
+                handleClickVariant('success', 'reservation edited successfully!');
             } else {
                 handleCancel();
                 props.handleEditMovieError();
+                handleClickVariant('error', 'error editing reservation!');
             }
+            // if (res.error.data.status === false) {
+            //     handleCancel();
+            //     props.handleEditMovieError();
+            //     handleClickVariant('error', 'error editing reservation!');
+            // }
         })  
         // if (title && description && imageLink) {
         //     console.log("editing: ", {
@@ -112,6 +136,7 @@ const EditMovieReservationModal = (props) => {
         };
       }, []);
 
+      console.log("startTimeSelected: ", startTimeSelected)
     return ReactDOM.createPortal(
         <CSSTransition
             in={props.open}
@@ -129,17 +154,45 @@ const EditMovieReservationModal = (props) => {
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 
                     </Typography>
-                    {/* <div className="inputs">
+                    <div className="inputs">
+                        <TextField
+                            id="datetime-local"
+                            label="Start Time"
+                            type="datetime-local"
+                            defaultValue="2017-05-24 09:30"
+                            sx={{ width: 250 }}
+                            InputLabelProps={{
+                            shrink: true
+                            }}
+                            style={inputStyle}
+                            value={startTimeSelected.replace(/\s/g, 'T')}
+                            onChange={handleStartTimeChange}
+                            required
+                        />
+                        <TextField
+                            id="datetime-local"
+                            label="End Time"
+                            type="datetime-local"
+                            defaultValue="2017-05-24T09:30"
+                            sx={{ width: 250 }}
+                            InputLabelProps={{
+                            shrink: true
+                            }}
+                            style={inputStyle}
+                            value={endTimeSelected.replace(/\s/g, 'T')}
+                            onChange={handleEndTimeChange}
+                            required
+                        />
                         <TextField 
                             required
                             style={inputStyle}
-                            value={title ? title : props.currentSelectedMovie.title}
-                            onChange={(e) => handleTitleChange(e)}
-                            label="Title"
+                            value={price}
+                            onChange={(e) => handlePriceChange(e)}
+                            label="Price"
                             color="primary" 
                             //focused 
                         />
-                        <TextField 
+                        {/* <TextField 
                             required
                             style={inputStyle}
                             value={description}
@@ -154,9 +207,9 @@ const EditMovieReservationModal = (props) => {
                             onChange={(e) => handleImageLinkChange(e)}
                             label="Poster Link"
                             color="primary" 
-                        />
+                        /> */}
 
-                    </div> */}
+                    </div>
                     <FormControl sx={{ m: 1, width: 350 }}>
                         <InputLabel id="demo-multiple-checkbox-label">Room</InputLabel>
                         <Select
