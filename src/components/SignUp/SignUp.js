@@ -50,8 +50,10 @@ export default function SignUp() {
       username: data.get('username'),
       password: data.get('password'),
       email: data.get('email'),
-      role: isManager ? "manager" : "customer",
-      mobile_number: data.get('phone')
+      //role: isManager ? "manager" : "customer",
+      role: "customer",
+      mobile_number: data.get('phone'),
+      management_request: isManager ? 1 : 0
     };
 
     console.log("user: ", user);

@@ -10,11 +10,11 @@ import RoomSelect from "../RoomSelect/RoomSelect";
 import ScreenTimes from '../ScreenTimes/ScreenTimes';
 import ReservationSummary from "../ReservationSummary/ReservationSummary";
 import DateSelect from "../DateSelect/DateSelect";
-//import VIPCinema from "../VIPCinema/VIPCinema";
 import IMAXCinema from "../IMAXCinema/IMAXCinema";
 import { useGetMovieReservationsQuery, useReserveTicketMutation } from "../../services/movies";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from 'notistack';
 
 
 const steps = ["Choose cinema hall", "Choose date", "Choose time", "Choose seat", "Reservation Summary"];
@@ -36,8 +36,12 @@ const Reservation = (props) => {
     const [movieReservationId, setMovieReservationId] = useState('');
 
     const userId = useSelector(state => state.user.id);
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+    const userType = useSelector(state => state.user.role);
     const token = useSelector(state => state.user.token);
     const [reserveTicket] = useReserveTicketMutation();
+
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         console.log("selectedHall: ", selectedHall);
@@ -94,6 +98,11 @@ const Reservation = (props) => {
     //   console.log("seats: ", seats)
     // }, [selectedDate, selectedHall]);
 
+    const handleClickVariant = (variant, msg) => {
+      // variant could be success, error, warning, info, or default
+      enqueueSnackbar(msg, { variant });
+    };
+
     const bookTicket = () => {
       console.log("userId: ", userId, ", reservationId: ", movieReservationId, ", seat no.: ", selectedSeats);
       let req = {
@@ -102,12 +111,17 @@ const Reservation = (props) => {
         seat_no: selectedSeats[0]
       }
 
+      if (!isLoggedIn) {
+        alert("You are not signed in!");
+      }
+
       reserveTicket(req).then(res => {
         console.log("reservation response: ", res);
         if (res.data && res.data.status) {
           setSelectedSeats([]);
           setMovieReservationId('');
           //data = '';
+          handleClickVariant('success', 'Seat booked successfully');
           navigate("/");
         }
       })
@@ -155,6 +169,11 @@ const Reservation = (props) => {
   };
 
   const handleReset = () => {
+    if (userType === "manager" || userType == "admin") {
+      handleClickVariant('error', 'managers or admins cannot book seats');
+      console.log("yess")
+      return;
+    }
     setActiveStep(0);
     bookTicket();
   };
@@ -262,3 +281,11 @@ const Reservation = (props) => {
 }
 
 export default Reservation;
+
+// export default function IntegrationNotistack() {
+//   return (
+//     <SnackbarProvider maxSnack={3}>
+//       <Reservation />
+//     </SnackbarProvider>
+//   );
+// }

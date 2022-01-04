@@ -82,7 +82,16 @@ const Header_v2 = () => {
             Logout
         </li>
       );
-    
+      const Admin = (
+        <li className={classes.active} onClick={() => navigate("/site-administration")}>
+            Admin
+        </li>
+      );
+      const Manager = (
+        <li className={classes.active} onClick={() => navigate("/management")}>
+            Management
+        </li>
+      );
 
 
     return (
@@ -95,7 +104,8 @@ const Header_v2 = () => {
                     <li className={classes.active} onClick={() => navigate("/")}>
                         Home
                     </li>
-                    {(userType == "guest" || isLoggedIn == false) ? Login : MyReservations}
+                    {(userType == "guest" && isLoggedIn == false) ? Login : 
+                      (userType == "admin") ? Admin : (userType == "manager") ? Manager : MyReservations}
                     {userType == "guest" ? Signup : Logout}
                 </ul>
             </div>
