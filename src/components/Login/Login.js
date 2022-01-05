@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../../services/user';
 import { useNavigate } from 'react-router-dom';
 import { userActions } from '../../store/userSlice';
+import { useSnackbar } from 'notistack';
 
 const Login = () => {
 
@@ -20,6 +21,12 @@ const Login = () => {
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const [redirect, SetRedirect] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleClickVariant = (variant, msg) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar(msg, { variant });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,12 +46,12 @@ const Login = () => {
         console.log("response: ", res)
         console.log("status: ",res.data.status);
         loginInfo = { ...loginInfo, ...res.data.data}
-        if (res.data.status) {
+        if (res.data && res.data.status) {
           console.log("logging in")
           dispatch(userActions.login(loginInfo));
+          handleClickVariant('success', 'Logged in successfully!');
           navigate("/");
-
-        }
+        } 
       });
     } catch {
       console.log({
@@ -54,6 +61,8 @@ const Login = () => {
         duration: 2000,
         isClosable: true,
       })
+      handleClickVariant('error', 'email or password is incorrect');
+
     }
 
     //SetRedirect(true);

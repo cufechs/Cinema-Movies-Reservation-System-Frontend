@@ -16,19 +16,7 @@ import { useDispatch } from 'react-redux';
 import { useSignupUserMutation } from '../../services/user';
 import { useNavigate } from 'react-router-dom';
 import { userActions } from '../../store/userSlice';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { useSnackbar } from 'notistack';
 
 const theme = createTheme();
 
@@ -39,6 +27,12 @@ export default function SignUp() {
   const [signupUser] = useSignupUserMutation();
 
   const [isManager, setIsManager] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleClickVariant = (variant, msg) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar(msg, { variant });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -66,6 +60,7 @@ export default function SignUp() {
         if (res.data.status) {
           console.log("loggin in")
           dispatch(userActions.login(user));
+          handleClickVariant('success', 'Signed Up Successfully!');
           navigate("/");
 
         }
@@ -78,6 +73,7 @@ export default function SignUp() {
         duration: 2000,
         isClosable: true,
       })
+      handleClickVariant('error', 'Error signup');
     }
   };
 
