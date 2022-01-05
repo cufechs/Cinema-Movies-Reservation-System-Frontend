@@ -154,20 +154,26 @@
 // export default UserReservation;
 
 import React, { useState } from 'react';
-import { useGetUserReservationsQuery } from '../../services/user';
+import { useGetUserReservationsQuery, useDeleteReservationMutation } from '../../services/user';
 import './UserReservations.css';
 import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import DoneIcon from '@mui/icons-material/Done';
 import { useSelector } from 'react-redux';
+import { useSnackbar } from 'notistack';
 
 const UserReservations = () => {
     const userId = useSelector(state => state.user.id);
     const {data, isLoading, isSuccess, isError, refetch } = useGetUserReservationsQuery(userId);
     const [selectedUser, setSelectedUser] = useState(null);
-    // const [deleteUser] = useDeleteUserMutation();
-    // const [approveUser] = useApproveUserMutation();
+    const [deleteReservation] = useDeleteReservationMutation();
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleClickVariant = (variant, msg) => {
+      // variant could be success, error, warning, info, or default
+      enqueueSnackbar(msg, { variant });
+    };
 
     const columns = [
         { field: 'id', headerName: 'Row ID', width: 80 },
@@ -196,7 +202,16 @@ const UserReservations = () => {
                     console.log(params.row);
                     // movie_reservation_id
                   //deleteUser(thisRow.id).then(res => refetch());
-                  
+                  deleteReservation({userId: params.row.user_id, moviereservationId: params.row.movie_reservation_id})
+                      .then(res => {
+                        console.log("res: ",res);
+                        if (res.error && res.error.data.status == false) {
+                          handleClickVariant('error', res.error.data.msg);
+                        } else {
+                          handleClickVariant('success', 'Reservation cancelled');
+                        }
+                        refetch()
+                      });
                 }
 
                 return (

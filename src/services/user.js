@@ -58,6 +58,15 @@ export const userApi = createApi({
                 response.moviereservations = res;
                 return response;
             }
+        }),
+        deleteReservation: builder.mutation({
+            query: ({userId, moviereservationId}) => ({
+                url: `http://127.0.0.1:8000/api/moviereservations/delete/${userId}`,
+                method: 'PUT',
+                body: {
+                    id: moviereservationId
+                }
+            })
         })
     })
 })
@@ -69,5 +78,6 @@ export const {
     useDeleteUserMutation,
     useApproveUserMutation,
     useSignupUserMutation,
-    useGetUserReservationsQuery
+    useGetUserReservationsQuery,
+    useDeleteReservationMutation
 } = userApi;
