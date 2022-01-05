@@ -12,6 +12,8 @@ import UserReservations from './components/UserReservations/UserReservations';
 import ManagementPage from './components/ManagementPage/ManagementPage';
 import Header_v2 from './components/Header_v2/Header_v2';
 import MovieReservationsPage from './components/MovieReservationsPage/MovieReservationsPage';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+
 
 const App = () => {
   return (
@@ -23,9 +25,13 @@ const App = () => {
           <Route exact path="/movies/:movieID" element={<MovieDetail />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<SignUp />} />
-          <Route exact path="/site-administration" element={<SiteAdmin />} />
+          <Route exact path="/site-administration" element={<ProtectedRoute allowedUser="admin" />}>
+            <Route exact path="/site-administration" element={<SiteAdmin />} />
+          </Route>
           <Route exact path="/my-reservations" element={<UserReservations />} />
-          <Route exact path="/management" element={<ManagementPage />} />
+          <Route exact path="/management" element={<ProtectedRoute allowedUser="manager" />}>
+            <Route exact path="/management" element={<ManagementPage />} />
+          </Route>
           <Route exact path="/movie-reservations/:reservationID" element={<MovieReservationsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
