@@ -13,7 +13,7 @@ import ManagementPage from './components/ManagementPage/ManagementPage';
 import Header_v2 from './components/Header_v2/Header_v2';
 import MovieReservationsPage from './components/MovieReservationsPage/MovieReservationsPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-
+import Unauthorized from './components/Unauthorized/Unauthorized';
 
 const App = () => {
   return (
@@ -33,6 +33,7 @@ const App = () => {
             <Route exact path="/management" element={<ManagementPage />} />
           </Route>
           <Route exact path="/movie-reservations/:reservationID" element={<MovieReservationsPage />} />
+          <Route exact path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

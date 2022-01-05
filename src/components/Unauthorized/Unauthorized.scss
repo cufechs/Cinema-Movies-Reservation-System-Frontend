@@ -1,0 +1,21 @@
+@import "../../common/variables.scss";
+@import "../../common/mixins.scss";
+
+.unauthorized {
+    width: 60%;
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+
+    
+}
+
+.forbidden h3 {
+    margin-top: 120px;
+    margin-left: 100px;
+    margin-bottom: 30px;
+}

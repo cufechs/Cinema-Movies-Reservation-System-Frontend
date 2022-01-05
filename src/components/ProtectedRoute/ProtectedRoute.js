@@ -6,7 +6,7 @@ const ProtectedRoute = ({ component: Component, allowedUser, ...rest }) => {
     const userType = useSelector(state => state.user.role);
 
     return (
-        userType === allowedUser ? <Outlet /> : <Navigate to="/login" />
+        userType === allowedUser ? <Outlet /> : <Navigate to="/unauthorized" />
     );
 }
 
