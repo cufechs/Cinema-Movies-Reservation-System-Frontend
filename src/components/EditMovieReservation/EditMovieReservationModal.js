@@ -71,10 +71,12 @@ const EditMovieReservationModal = (props) => {
             id: props.currentSelectedReservation.id,
             capacity: roomSelected,
             price: price,
+            date: startTimeSelected.split("T")[0],
             start_time: startTimeSelected.replace(/\s/g, 'T'),
             end_time: endTimeSelected.replace(/\s/g, 'T')
         }
-
+        //console.log("reservation: ", reservation);
+        //console.log("********************* date only: ", startTimeSelected.split("T")[0])
         editMovieReservation(reservation).then(res => {
             console.log("res: ", res)
             if (res.data && res.data.status === true) {
@@ -82,11 +84,11 @@ const EditMovieReservationModal = (props) => {
                 // success
                 props.refetch();
                 handleCancel();
-                props.handleEditMovieSuccess();
+                //props.handleEditMovieSuccess();
                 handleClickVariant('success', 'reservation edited successfully!');
             } else {
                 handleCancel();
-                props.handleEditMovieError();
+                //props.handleEditMovieError();
                 handleClickVariant('error', 'error editing reservation!');
             }
             // if (res.error.data.status === false) {
