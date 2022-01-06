@@ -59,7 +59,7 @@ export default function SignUp() {
         console.log("status: ",res.data.status)
         if (res.data.status) {
           console.log("loggin in")
-          dispatch(userActions.login(user));
+          dispatch(userActions.login({...user, id: res.data.user.id}));
           handleClickVariant('success', 'Signed Up Successfully!');
           navigate("/");
 
