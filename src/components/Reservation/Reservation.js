@@ -17,7 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { useSnackbar } from 'notistack';
 
 
-const steps = ["Choose cinema hall", "Choose date", "Choose time", "Choose seat", "Reservation Summary"];
+//const steps = ["Choose cinema hall", "Choose date", "Choose time", "Choose seat", "Reservation Summary"];
+const steps = ["Choose cinema hall", "Choose date", "Choose seat", "Reservation Summary"];
 
 const Reservation = (props) => {
     const navigate = useNavigate();
@@ -223,13 +224,13 @@ const Reservation = (props) => {
                 <p style={{color: 'black'}}>selected date: {selectedDate} </p>
                 <DateSelect setSelectedDate={setSelectedDate} selectedDate={selectedDate} dates={startTimesAvailable} movieID={props.movieID}/>
               </>
-            ) : activeStep + 1 === 3 ? (
+            ) : activeStep + 1 === 30 ? (
               <>
                 <h1 style={{color: "black"}}>schedule</h1>
                 <p style={{color: 'black'}}>selected time: {selectedTime} </p>
                 <ScreenTimes setSelectedTime={setSelectedTime} movieID={props.movieID}/>
               </>
-            ):  activeStep +1 === 4 ? (
+            ):  activeStep +1 === 3 ? (
               //<VIPCinema movieID={props.movieID} />
                //<CinemaRoom movieID={props.movieID}/>
                <>
@@ -271,7 +272,7 @@ const Reservation = (props) => {
 
             <Button 
               onClick={handleNext}
-              disabled={(activeStep == 0 && selectedHall == '') || (activeStep == 1 && selectedDate == '') || (activeStep == 2 && selectedTime == '') || (activeStep == 3 && selectedSeats.length === 0)}
+              disabled={(activeStep == 0 && selectedHall == '') || (activeStep == 1 && selectedDate == '') || (activeStep == 2 && selectedSeats.length === 0) }
             >
               {activeStep === steps.length - 1 ? "Finish" : "Next"}
             </Button>

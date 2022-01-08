@@ -55,8 +55,11 @@ export const userApi = createApi({
                 }
                 //console.log("res: ", res)
                 if (res.length >= 1 && res[0].seat_no) {
-                    console.log("seat_no: ", JSON.parse(res[0].seat_no).seat_no)
-                    res[0].seat_no = JSON.parse(res[0].seat_no).seat_no
+                    for (let i = 0; i < res.length; i++) {
+                        console.log("seat_no: ", JSON.parse(res[i].seat_no).seat_no)
+                        res[i].seat_no = JSON.parse(res[i].seat_no).seat_no
+                    }
+                    
                 }
                 console.log('response: ', movieReservations);
                 response.moviereservations = res;

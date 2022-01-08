@@ -29,7 +29,7 @@ const UserReservations = () => {
         { field: 'capacity', headerName: 'Capacity', width: 120 },
         {
             field: "action",
-            headerName: "Action",
+            headerName: "Cancel Reservation",
             width: 180,
             renderCell: (params) => {
                 //console.log("in renderCell: ", params)
