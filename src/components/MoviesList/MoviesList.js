@@ -14,15 +14,6 @@ function MoviesList() {
     const [skip, setSkip] = useState(false);
     const { data, error, isLoading, isFetching, isSuccess } = useGetAllMoviesQuery();
     console.log("movielist: ", data)
-    // useEffect(() => {
-    //     axios.get("http://localhost:3000/movies")
-    //         .then(res => {
-    //             console.log(res.data);
-    //             setMovies(res.data);
-    //         }).catch(err => {
-    //             console.log(err);
-    //         })
-    // }, [])
 
     return (
         <div>

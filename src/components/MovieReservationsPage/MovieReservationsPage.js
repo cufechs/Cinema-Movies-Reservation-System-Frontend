@@ -34,7 +34,7 @@ const style = {
 
 const MovieReservationsPage = () => {
     const { state } = useLocation();
-    console.log("location: ", state);
+    //console.log("location: ", state);
     const { data, error, isLoading, isFetching, isSuccess, refetch } = useGetMovieReservationsQuery(state.movieID);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -73,7 +73,7 @@ const MovieReservationsPage = () => {
                     (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
                   );
                 //handleOpen();
-                console.log("id: ", params.row);
+                //console.log("id: ", params.row);
                 setCurrentSelectedReservation({
                   id: params.id,
                   start_time: params.getValue(params.id, 'start_time'),
@@ -183,7 +183,7 @@ const MovieReservationsPage = () => {
     const handleSeatsModalOpen = () => setOpenSeatsModal(true);
     const handleSeatsModalClose = () => setOpenSeatsModal(false);
 
-    console.log("data: ", data)
+    //console.log("data: ", data)
 
     return (
         <>
@@ -206,21 +206,7 @@ const MovieReservationsPage = () => {
             />
                 
         </div>
-        {/* <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2" style={{color: 'black'}}>
-                Text in a modal
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-            </Box>
-        </Modal> */}
+        
         
         <AddReservationModal 
           open={movieModalOpen}

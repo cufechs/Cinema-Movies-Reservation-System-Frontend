@@ -70,17 +70,17 @@ const EditMovieReservationModal = (props) => {
         let reservation = {
             id: props.currentSelectedReservation.id,
             capacity: roomSelected,
-            price: price,
-            date: startTimeSelected.split("T")[0],
+            price: parseInt(price),
+            date: startTimeSelected.split(" ")[0],
             start_time: startTimeSelected.replace(/\s/g, 'T'),
             end_time: endTimeSelected.replace(/\s/g, 'T')
         }
-        //console.log("reservation: ", reservation);
+        console.log("reservation: ", reservation);
         //console.log("********************* date only: ", startTimeSelected.split("T")[0])
         editMovieReservation(reservation).then(res => {
-            console.log("res: ", res)
+            console.log("edit reservation res: ", res, ", reser: ", reservation)
             if (res.data && res.data.status === true) {
-                console.log(res?.data.status)
+                console.log("inside response: ", res?.data.status)
                 // success
                 props.refetch();
                 handleCancel();
@@ -138,7 +138,7 @@ const EditMovieReservationModal = (props) => {
         };
       }, []);
 
-      console.log("startTimeSelected: ", startTimeSelected)
+      //console.log("startTimeSelected: ", startTimeSelected)
     return ReactDOM.createPortal(
         <CSSTransition
             in={props.open}

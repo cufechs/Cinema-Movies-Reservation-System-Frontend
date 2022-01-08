@@ -35,8 +35,8 @@ const ViewSeatsModal = (props) => {
         enqueueSnackbar(msg, { variant });
     };
     //console.log("seatyyyys: ", JSON.parse(props.currentSelectedReservation.vacant_reserved_seats).seats)
-    console.log("View Seats modal props.currentSelectedReservation: ",props.currentSelectedReservation)
-    console.log("View Seats modal seats: ", props.currentSelectedReservation.vacant_reserved_seats)
+    //console.log("View Seats modal props.currentSelectedReservation: ",props.currentSelectedReservation)
+    //console.log("View Seats modal seats: ", props.currentSelectedReservation.vacant_reserved_seats)
 
     const closeModalOnEscapeKeyDown = (e) => {
         if ((e.charCode || e.keyCode) === 27) props.handleClose();

@@ -58,7 +58,7 @@ const ManagementPage = () => {
                     (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
                   );
                 handleOpen();
-                console.log("id: ", params.row);
+                //console.log("id: ", params.row);
                 setCurrentSelectedMovie({
                   id: params.id,
                   title: params.getValue(params.id, 'title'),

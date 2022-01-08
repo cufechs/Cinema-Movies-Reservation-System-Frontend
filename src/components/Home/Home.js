@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MoviesList from '../MoviesList/MoviesList';
 //import './Home.css';
 import classes from './Home.module.scss';
@@ -11,6 +11,8 @@ const Home = (props) => {
     //         <MoviesList />
     //     </div>
     // )
+
+   
 
     return  (
         <>
@@ -37,12 +39,10 @@ const Home = (props) => {
         </div>
 
         <div className="section mb-3">
-          <div className="section__header mb-2">
+          {/* <div className="section__header mb-2">
             <h2>Top Charts </h2>
-            {/* <Link to="/movie">
-              <OutlineButton className="small">View more</OutlineButton>
-            </Link> */}
-          </div>
+   
+          </div> */}
           {/* <MovieList category={category.movie} type={movieType.top_rated} /> */}
         </div>
 

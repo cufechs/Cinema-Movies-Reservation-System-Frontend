@@ -57,17 +57,17 @@ const Header_v2 = () => {
       }
 
       const Login = (
-        <li className={classes.active} onClick={() => navigate("/login")}>
+        <li className={classes.active} onClick={() => {navigate("/login"); window.location.reload();}}>
             Login
         </li>
         );
       const Signup = (
-        <li className={classes.active} onClick={() => navigate("/signup")}>
+        <li className={classes.active} onClick={() => {navigate("/signup"); window.location.reload();}}>
             Signup
         </li>
       );
       const MyReservations = (
-        <li className={classes.active} onClick={() => navigate("/my-reservations")}>
+        <li className={classes.active} onClick={() => {navigate("/my-reservations"); window.location.reload();} }>
             My Reservations
         </li>
       );
@@ -77,12 +77,12 @@ const Header_v2 = () => {
         </li>
       );
       const Admin = (
-        <li className={classes.active} onClick={() => navigate("/site-administration")}>
+        <li className={classes.active} onClick={() => {navigate("/site-administration"); window.location.reload();}}>
             Admin
         </li>
       );
       const Manager = (
-        <li className={classes.active} onClick={() => navigate("/management")}>
+        <li className={classes.active} onClick={() => {navigate("/management"); window.location.reload();}}>
             Management
         </li>
       );
@@ -92,10 +92,10 @@ const Header_v2 = () => {
         <div className={classes.header} ref={headerRef}>
             <div className={`${classes.header__wrap} ${classes.container}`}>
                 <div className={classes.logo} >
-                    <img src={LOGO_SRC} onClick={() => navigate("/")}/>
+                    <img src={LOGO_SRC} onClick={() => {navigate("/"); window.location.reload();}}/>
                 </div>
                 <ul className={classes.header__nav}>
-                    <li className={classes.active} onClick={() => navigate("/")}>
+                    <li className={classes.active} onClick={() => {navigate("/"); window.location.reload();} }>
                         Home
                     </li>
                     {(userType == "guest" && isLoggedIn == false) ? Login : 
