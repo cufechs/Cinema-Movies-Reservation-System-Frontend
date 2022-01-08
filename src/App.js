@@ -14,6 +14,8 @@ import Header_v2 from './components/Header_v2/Header_v2';
 import MovieReservationsPage from './components/MovieReservationsPage/MovieReservationsPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Unauthorized from './components/Unauthorized/Unauthorized';
+import AboutUs from './components/AboutUs/AboutUs';
+import Privacy from './components/Privacy/Privacy';
 
 const App = () => {
   return (
@@ -34,6 +36,8 @@ const App = () => {
           </Route>
           <Route exact path="/movie-reservations/:reservationID" element={<MovieReservationsPage />} />
           <Route exact path="/unauthorized" element={<Unauthorized />} />
+          <Route exact path="/aboutus" element={<AboutUs />} />
+          <Route exact path="/privacy" element={<Privacy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

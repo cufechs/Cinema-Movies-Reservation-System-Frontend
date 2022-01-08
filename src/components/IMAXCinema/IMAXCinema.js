@@ -91,7 +91,7 @@ const IMAXCinema = (props) => {
         <>
         <div className={classes.container}>
         <div className={classes.cinema__room}>
-            IMAX Cinema 
+            {props.capacity === 30 ? "IMAX Cinema" : "VIP Cinema"} 
             <div className={`${classes.screen} ${classes.screen__image}`}></div> 
             <div className={classes.seats}>
                 {seats.map((seat, index) => {

@@ -51,7 +51,7 @@ const MovieReservationsPage = () => {
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'start_time', headerName: 'Start Time', width: 170 },
         { field: 'end_time', headerName: 'End Time', width: 170 },
-        { field: 'vacant_reserved_seats', headerName: 'Seats', width: 270 },
+        //{ field: 'vacant_reserved_seats', headerName: 'Seats', width: 270 },
         { field: 'capacity', headerName: 'Capacity', width: 70 },
         { field: 'price', headerName: 'Price', width: 70 },
         {

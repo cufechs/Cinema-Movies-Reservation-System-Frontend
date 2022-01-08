@@ -33,7 +33,7 @@ const RoomSelect = (props) => {
                 
                 >
                 {props.rooms && props.rooms.map(room => (
-                    <MenuItem value={room} key={room}>{room}</MenuItem>
+                    <MenuItem value={room} key={room}>{room===30 ? "IMAX" : "VIP"}</MenuItem>
                 ))}
                 
                 </Select>

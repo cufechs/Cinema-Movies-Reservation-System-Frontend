@@ -26,17 +26,17 @@ const Footer = () => {
               <Box ><h4>About</h4></Box>
               <hr width="100px"/>
               <Box>
-                <Link href="/developers" color="inherit" style={{textDecoration: 'none'}}>
+                <Link href="/aboutus" color="inherit" style={{textDecoration: 'none'}}>
                   About Us
                 </Link>
               </Box>
               <Box>
-                <Link href="/" color="inherit" style={{textDecoration: 'none'}}>
+                <Link href="/aboutus" color="inherit" style={{textDecoration: 'none'}}>
                   Developers
                 </Link>
               </Box>
               <Box>
-                <Link href="/" color="inherit" style={{textDecoration: 'none'}}>
+                <Link href="/privacy" color="inherit" style={{textDecoration: 'none'}}>
                   Privacy
                 </Link>
               </Box>
