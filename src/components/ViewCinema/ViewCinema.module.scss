@@ -1,0 +1,97 @@
+@import '../../common/variables.scss';
+
+.container {
+    background: $body-bg;
+    padding: 40px;
+}
+
+.cinema__room {
+    // max-width: 1000px;
+    // background-color: black;
+    // margin: auto;
+    // padding: 30px;
+    perspective: 400px;
+    margin-bottom: 18px;
+    display: grid;
+    place-items: center;
+    grid-gap: 26px;
+
+    .screen {
+        height: 70px;
+        background: white;
+        width: 20%;
+        transform: rotateX(-50deg) scale(1.1);
+        box-shadow: 0 3px 10px 2px;
+    }
+
+    .seats {
+        display: grid;
+        grid-gap: 6px;
+        grid-template-columns: repeat(5, min-content);
+        align-items: center;
+
+        .seat {
+            color: $main-color;
+        }
+
+        .seat:nth-of-type(5n + 1) {
+            margin-right: 10px;
+        }
+
+        .seat:nth-of-type(5n + 4){
+            margin-right: 10px;
+        }
+
+        .seat {
+            display: inline-block;
+            background-color: #626260;
+            width: 16px;
+            height: 12px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+        
+            position: relative;
+            top: 1px;
+
+            &:hover {
+                background-color: $main-color;
+                cursor: pointer;
+            }
+
+            .selected {
+                background-color: $main-color;
+            }
+
+            
+        }
+    }
+}
+.occupied {
+    background-color: rgba(0, 179, 255, 0.564);
+    display: inline-block;
+    width: 16px;
+    height: 12px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+
+    position: relative;
+    top: 1px;
+    
+}
+
+.selected {
+    background-color: $main-color;
+    display: inline-block;
+    width: 16px;
+    height: 12px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+
+    position: relative;
+    top: 1px;
+    cursor: pointer;
+    
+}
