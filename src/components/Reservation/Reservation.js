@@ -108,8 +108,10 @@ const Reservation = (props) => {
       let req = {
         user_id: userId,
         id: movieReservationId,
-        seat_no: selectedSeats[0]
+        seat_no: JSON.stringify({ seat_no: selectedSeats})
       }
+
+      console.log("req: ", req)
 
       if (!isLoggedIn) {
         alert("You are not signed in!");

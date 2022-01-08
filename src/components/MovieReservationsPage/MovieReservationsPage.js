@@ -57,7 +57,7 @@ const MovieReservationsPage = () => {
         { field: 'price', headerName: 'Price', width: 70 },
         {
             field: 'action',
-            headerName: 'Action',
+            headerName: 'Edit',
             sortable: false,
             renderCell: (params) => {
               const onClick = (e) => {
@@ -98,7 +98,7 @@ const MovieReservationsPage = () => {
 
           {
             field: 'details',
-            headerName: 'View detials',
+            headerName: 'View Seats',
             sortable: false,
             width: 110,
             renderCell: (params) => {

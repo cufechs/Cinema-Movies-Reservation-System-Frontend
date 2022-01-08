@@ -54,6 +54,10 @@ export const userApi = createApi({
                     res.push({...reserv, ...reserv.pivot, moviereservationId: id, id: i})
                 }
                 //console.log("res: ", res)
+                if (res.length >= 1 && res[0].seat_no) {
+                    console.log("seat_no: ", JSON.parse(res[0].seat_no).seat_no)
+                    res[0].seat_no = JSON.parse(res[0].seat_no).seat_no
+                }
                 console.log('response: ', movieReservations);
                 response.moviereservations = res;
                 return response;
