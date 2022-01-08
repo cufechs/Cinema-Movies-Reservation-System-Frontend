@@ -38,6 +38,7 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
+    let repassword = data.get('repassword');
     let user = {
       first_name: data.get('firstName'),
       last_name: data.get('lastName'),
@@ -49,6 +50,24 @@ export default function SignUp() {
       mobile_number: data.get('phone'),
       management_request: isManager ? 1 : 0
     };
+
+    if (repassword != user.password) {
+      handleClickVariant('warning', 'passwords should match');
+      return;
+    } 
+    if (user.password.length < 8) {
+      handleClickVariant('warning', 'passwords should be more than 8 characters and digits');
+      return;
+    }
+    if (!user.password.match(/[a-zA-Z]+/)) {
+      handleClickVariant('warning', 'passwords should contain characters also');
+      return;
+    }
+    if (!user.password.match(/[0-9]+/)) {
+      handleClickVariant('warning', 'passwords should contain digits also');
+      return;
+    }
+
 
     console.log("user: ", user);
     
@@ -160,6 +179,17 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="repassword"
+                  label="ReEnter Password"
+                  type="password"
+                  id="repassword"
                   autoComplete="new-password"
                 />
               </Grid>
