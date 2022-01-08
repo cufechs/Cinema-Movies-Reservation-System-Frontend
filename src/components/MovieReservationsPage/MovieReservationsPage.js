@@ -17,7 +17,8 @@ import ViewDetailsModal from '../ViewDetails/ViewDetailsModal';
 import { useLocation } from 'react-router-dom';
 import EditMovieReservationModal from '../EditMovieReservation/EditMovieReservationModal';
 import AddReservationModal from '../AddReservationModal/AddReservationModal';
-
+import ViewSeatsModal from '../ViewSeatsModal/ViewSeatsModal';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const style = {
   position: 'absolute',
@@ -93,6 +94,47 @@ const MovieReservationsPage = () => {
                 </IconButton>
               )
             },
+          },
+
+          {
+            field: 'details',
+            headerName: 'View detials',
+            sortable: false,
+            width: 110,
+            renderCell: (params) => {
+              const onClick = (e) => {
+                e.stopPropagation(); // don't select this row after clicking
+        
+                const api = params.api;
+                const thisRow = {};
+        
+                api
+                  .getAllColumns()
+                  .filter((c) => c.field !== '__check__' && !!c)
+                  .forEach(
+                    (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
+                  );
+                //handleOpen();
+                //handleViewDetailsModalOpen();
+                setCurrentSelectedReservation({
+                  id: params.id,
+                  start_time: params.getValue(params.id, 'start_time'),
+                  end_time: params.row.end_time ,
+                  vacant_reserved_seats: params.row.vacant_reserved_seats,
+                  capacity: params.row.capacity,
+                  price: params.row.price
+                })
+                handleSeatsModalOpen();
+                return null;//alert(JSON.stringify(thisRow, null, 4));
+              };
+        
+              //return <Button onClick={onClick}>Click</Button>;
+              return (
+                <IconButton aria-label="more" onClick={onClick}>
+                    <OpenInNewIcon />
+                </IconButton>
+              )
+            },
           }
         
       ];
@@ -114,6 +156,7 @@ const MovieReservationsPage = () => {
     const [errorEditSnackBarOpen, setErrorEditSnackBarOpen] = useState(false);
     // view details states
     const [viewDetailsModalOpen, setViewDetailsModalOpen] = useState(false);
+    const [openSeatsModal, setOpenSeatsModal] = useState(false);
     //const [successEditSnackBarOpen, setSuccessEditSnackBarOpen] = useState(false);
     //const [errorEditSnackBarOpen, setErrorEditSnackBarOpen] = useState(false);
 
@@ -136,6 +179,9 @@ const MovieReservationsPage = () => {
     // view details handlers
     const handleViewDetailsModalOpen=() => setViewDetailsModalOpen(true);
     const handleViewDetailsModalClose=() => setViewDetailsModalOpen(false);
+
+    const handleSeatsModalOpen = () => setOpenSeatsModal(true);
+    const handleSeatsModalClose = () => setOpenSeatsModal(false);
 
     console.log("data: ", data)
 
@@ -189,6 +235,16 @@ const MovieReservationsPage = () => {
         <EditMovieReservationModal 
           open={editMovieModalOpen}
           handleClose={handleEditMovieModalClose}
+          refetch={refetch} 
+          handleEditMovieSuccess={handleEditMovieSuccess}
+          handleEditMovieError={handleEditMovieError}
+          currentSelectedReservation={currentSelectedReservation}
+          //successSnackBarOpen={successSnackBarOpen}
+        />
+
+        <ViewSeatsModal 
+          open={openSeatsModal}
+          handleClose={handleSeatsModalClose}
           refetch={refetch} 
           handleEditMovieSuccess={handleEditMovieSuccess}
           handleEditMovieError={handleEditMovieError}

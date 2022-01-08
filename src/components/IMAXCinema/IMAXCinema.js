@@ -46,7 +46,8 @@ const IMAXCinema = (props) => {
 
     useEffect(() => {
         let seatsIndices = seats.map((e, i) => e === 1 ? i : '').filter(String);
-        console.log(seatsIndices)
+        console.log("seats imax: ", seats);
+        console.log("resreved seats indices: ",seatsIndices)
         setReservedSeats(seatsIndices);
         
     }, [props.seats.seats]);

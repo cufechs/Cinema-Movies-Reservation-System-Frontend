@@ -269,7 +269,7 @@ const Reservation = (props) => {
 
             <Button 
               onClick={handleNext}
-              disabled={(activeStep == 0 && selectedHall == '') || (activeStep == 1 && selectedDate == '') || (activeStep == 2 && selectedTime == '')}
+              disabled={(activeStep == 0 && selectedHall == '') || (activeStep == 1 && selectedDate == '') || (activeStep == 2 && selectedTime == '') || (activeStep == 3 && selectedSeats.length === 0)}
             >
               {activeStep === steps.length - 1 ? "Finish" : "Next"}
             </Button>

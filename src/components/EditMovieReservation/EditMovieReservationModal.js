@@ -38,7 +38,7 @@ const EditMovieReservationModal = (props) => {
         enqueueSnackbar(msg, { variant });
     };
     
-    console.log("seats: ", props.currentSelectedReservation.vacant_reserved_seats)
+    //console.log("seatyyyys: ", JSON.parse(props.currentSelectedReservation.vacant_reserved_seats).seats)
     const handleRoomChange = (e) => {
         setRoomSelected(e.target.value)
     }
